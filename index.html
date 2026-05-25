@@ -245,17 +245,30 @@ var surveySeedData = {
 function castVote(btn) {
     var survey = btn.closest('.survey');
     var index = parseInt(btn.getAttribute('data-index'));
-    showResults(survey, index);
+    var seeds = JSON.parse(survey.getAttribute('data-seeds'));
+    var fbCounts = JSON.parse(survey.getAttribute('data-firebase-counts') || 'null');
+    var numOptions = survey.querySelectorAll('.survey-option').length;
+    var displayCounts = seeds.slice();
+    if (fbCounts) {
+        for (var i = 0; i < numOptions; i++) {
+            displayCounts[i] = seeds[i] + fbCounts[i];
+        }
+    }
+    displayCounts[index] += 1;
+    showResults(survey, index, displayCounts);
+    if (firebaseDb) {
+        var fbKey = survey.getAttribute('data-firebase-key');
+        firebaseDb.ref('surveys/' + fbKey + '/' + index).transaction(function(current) {
+            return (current || 0) + 1;
+        });
+    }
 }
 
-function showResults(survey, votedIndex) {
-    var seeds = JSON.parse(survey.getAttribute('data-seeds'));
-    var counts = seeds.slice();
-    counts[votedIndex] = counts[votedIndex] + 1;
+function showResults(survey, votedIndex, counts) {
     var total = counts.reduce(function(a, b) { return a + b; }, 0);
     var buttons = survey.querySelectorAll('.survey-option');
     for (var i = 0; i < buttons.length; i++) {
-        var pct = Math.round((counts[i] / total) * 100);
+        var pct = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
         buttons[i].disabled = true;
         buttons[i].querySelector('.survey-pct').style.display = 'inline';
         buttons[i].querySelector('.survey-pct').textContent = pct + '%';
@@ -266,6 +279,50 @@ function showResults(survey, votedIndex) {
         }
     }
 }
+
+// ── Firebase config ──────────────────────────────────────────────────────────
+// Fill in your values from: console.firebase.google.com
+//   Project Settings → General → Your apps → SDK setup and configuration
+var FIREBASE_CONFIG = {
+    apiKey: "AIzaSyAtt3eWqa4063OFd3HviZdHZcW7j8MPedk",
+    databaseURL: "https://spaces-survey-default-rtdb.firebaseio.com"
+};
+var firebaseDb = null;
+
+function surveyFirebaseKey(question) {
+    return question.replace(/[.#$\[\]\/]/g, '_').substring(0, 200);
+}
+
+function fetchSurveyCounts() {
+    if (!firebaseDb) return;
+    document.querySelectorAll('.survey[data-firebase-key]').forEach(function(survey) {
+        var key = survey.getAttribute('data-firebase-key');
+        var numOptions = survey.querySelectorAll('.survey-option').length;
+        firebaseDb.ref('surveys/' + key).once('value').then(function(snapshot) {
+            var data = snapshot.val() || {};
+            var counts = [];
+            for (var i = 0; i < numOptions; i++) { counts.push(data[i] || 0); }
+            survey.setAttribute('data-firebase-counts', JSON.stringify(counts));
+        });
+    });
+}
+
+(function() {
+    var appScript = document.createElement('script');
+    appScript.src = 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js';
+    appScript.onload = function() {
+        var dbScript = document.createElement('script');
+        dbScript.src = 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js';
+        dbScript.onload = function() {
+            firebase.initializeApp(FIREBASE_CONFIG);
+            firebaseDb = firebase.database();
+            fetchSurveyCounts();
+        };
+        document.head.appendChild(dbScript);
+    };
+    document.head.appendChild(appScript);
+})();
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Load Highlight.js from CDN for syntax highlighting
 (function() {
@@ -345,11 +402,11 @@ function processPassageContent() {
                 options.push(parts[p].trim());
             }
             var id = 'survey-' + surveyIndex++;
-            var storageKey = 'survey_' + question;
             var defaultSeeds = [];
             for (var d = 0; d < options.length; d++) { defaultSeeds.push(3); }
             var seeds = surveySeedData[question] || defaultSeeds;
-            var out = '<div class="survey" id="' + id + '" data-key="' + storageKey.replace(/"/g, '&quot;') + '" data-seeds="' + JSON.stringify(seeds) + '">';
+            var fbKey = surveyFirebaseKey(question);
+            var out = '<div class="survey" id="' + id + '" data-firebase-key="' + fbKey.replace(/"/g, '&quot;') + '" data-seeds="' + JSON.stringify(seeds) + '">';
             out += '<div class="survey-question">' + question + '</div>';
             for (var i = 0; i < options.length; i++) {
                 out += '<button class="survey-option" data-index="' + i + '" onclick="castVote(this)">' +
@@ -402,7 +459,10 @@ function processPassageContent() {
     // Step 5: Set innerHTML once
     passage.innerHTML = html;
 
-    // Step 5.5: Process collapsible sections (headings starting with ^^)
+    // Step 5.5: Fetch real vote counts from Firebase for surveys on this passage
+    fetchSurveyCounts();
+
+    // Step 5.6: Process collapsible sections (headings starting with ^^)
     var headings = passage.querySelectorAll('h1, h2, h3, h4, h5, h6');
     for (var h = 0; h < headings.length; h++) {
         var heading = headings[h];
