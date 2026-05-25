@@ -191,6 +191,13 @@ pre code.hljs {
     margin: 0;
 }
 .collapsible-heading:hover { color: #0077cc; }
+.collapse-icon {
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    opacity: 0.75;
+}
 .collapsible-heading .collapse-arrow {
     margin-left: auto;
     display: inline-block;
@@ -581,13 +588,27 @@ function processPassageContent() {
     fetchSurveyCounts();
 
     // Step 5.6: Process collapsible sections (headings starting with ^^)
+    var collapseIconMap = [
+        { match: 'video',       file: 'icon_video.png' },
+        { match: 'code',        file: 'icon_code.png' },
+        { match: 'test',        file: 'icon_flashcards.png' },
+        { match: 'umer',        file: 'icon_umersRamblings.png' },
+        { match: "who",         file: 'icon_whosRight.png' },
+        { match: "what's next", file: 'icon_whatsNext.png' }
+    ];
     var headings = passage.querySelectorAll('h1, h2, h3, h4, h5, h6');
     for (var h = 0; h < headings.length; h++) {
         var heading = headings[h];
         var text = heading.textContent;
         if (text.indexOf('^^') !== 0) continue;
-        // Strip the ^^ marker from the heading text
-        heading.innerHTML = '<span class="collapse-arrow">&#9654;</span>' + heading.innerHTML.replace('^^', '');
+        var titleLower = text.replace('^^', '').trim().toLowerCase();
+        var iconFile = null;
+        for (var ic = 0; ic < collapseIconMap.length; ic++) {
+            if (titleLower.startsWith(collapseIconMap[ic].match)) { iconFile = collapseIconMap[ic].file; break; }
+        }
+        var iconHtml = iconFile ? '<img class="collapse-icon" src="images/' + iconFile + '" alt="" />' : '';
+        // Order: [icon] [text] [arrow] — arrow gets margin-left:auto so it sits on the right
+        heading.innerHTML = iconHtml + heading.innerHTML.replace('^^', '') + '<span class="collapse-arrow">&#9654;</span>';
         heading.classList.add('collapsible-heading');
         // Collect all siblings after this heading until the next heading or end
         var contentDiv = document.createElement('div');
