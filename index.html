@@ -25,19 +25,15 @@ body {
 tw-story {
     display: block !important;
     height: 100% !important;
-    max-width: 80% !important;
-    margin: 0 auto !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
     background: #f5f5f5 !important;
     color: #1a1a2e !important;
-    padding-top: 48px !important;
-    box-sizing: border-box !important;
 }
 tw-passage {
     min-height: auto !important;
-    padding: 0 48px 50px 48px !important;
+    padding-bottom: 50px !important;
     color: #1a1a2e !important;
 }
 tw-passage a {
@@ -182,41 +178,27 @@ pre code.hljs {
 
 /* Collapsible section styles */
 .collapsible-heading {
-    display: flex !important;
-    align-items: center;
-    padding: 14px 0;
-    border-bottom: 1px solid #e0e0e0;
     cursor: pointer;
     user-select: none;
-    font-weight: 500;
-    color: #1a1a2e;
-    margin: 0;
 }
-.collapsible-heading:hover { color: #0077cc; }
-.collapse-icon {
-    width: 22px;
-    height: 22px;
-    margin-right: 10px;
-    flex-shrink: 0;
-    opacity: 0.75;
-}
-.icon-heading {
-    display: flex;
-    align-items: center;
+.collapsible-heading:hover {
+    color: #0077cc;
 }
 .collapsible-heading .collapse-arrow {
-    margin-left: auto;
     display: inline-block;
     transition: transform 0.2s ease;
-    font-size: 0.8em;
-    color: #888;
+    margin-right: 6px;
+    font-size: 0.7em;
 }
-.collapsible-heading.open .collapse-arrow { transform: rotate(90deg); }
+.collapsible-heading.open .collapse-arrow {
+    transform: rotate(90deg);
+}
 .collapsible-content {
     display: none;
-    padding: 12px 0 4px;
 }
-.collapsible-content.open { display: block; }
+.collapsible-content.open {
+    display: block;
+}
 
 /* Mobile responsiveness */
 img {
@@ -254,124 +236,6 @@ pre {
         font-size: 0.82em;
     }
 }
-
-/* ── Top navigation bar ──────────────────────────────────────────────────── */
-#top-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 48px;
-    background: #3a3a4a;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    gap: 16px;
-    z-index: 200;
-    box-sizing: border-box;
-}
-.top-nav-brand {
-    color: white;
-    font-size: 0.7em;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    white-space: nowrap;
-}
-.top-nav-search {
-    width: 100%;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 4px;
-    padding: 6px 12px;
-    color: white;
-    font-size: 0.85em;
-    outline: none;
-    box-sizing: border-box;
-}
-.top-nav-search::placeholder { color: rgba(255,255,255,0.4); }
-.top-nav-search-wrap {
-    flex: 1;
-    max-width: 360px;
-    position: relative;
-}
-.top-nav-search-results {
-    display: none;
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    right: 0;
-    background: #2e2e3e;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 4px;
-    max-height: 260px;
-    overflow-y: auto;
-    z-index: 300;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-}
-.top-nav-search-results.open { display: block; }
-.search-result-item {
-    padding: 9px 14px;
-    color: white;
-    font-size: 0.85em;
-    cursor: pointer;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-.search-result-item:last-child { border-bottom: none; }
-.search-result-item:hover, .search-result-item.active { background: rgba(255,255,255,0.12); }
-.search-result-item strong { color: #4cc9f0; }
-.search-result-snippet { font-size: 0.8em; color: rgba(255,255,255,0.5); margin-top: 2px; }
-.search-no-results { padding: 9px 14px; color: rgba(255,255,255,0.45); font-size: 0.85em; font-style: italic; }
-
-/* ── What's Next? cards ──────────────────────────────────────────────────── */
-.whats-next-intro { color: #666; font-size: 0.88em; margin-bottom: 14px; }
-.next-cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 12px;
-    margin-bottom: 24px;
-}
-.next-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 14px;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.next-card-header { display: flex; align-items: center; gap: 10px; }
-.next-card-dot {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: #f72585;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 0.6em;
-    font-weight: 700;
-    flex-shrink: 0;
-    text-transform: uppercase;
-}
-.next-card-title { font-weight: 600; font-size: 0.88em; color: #1a1a2e; }
-.next-card-desc { font-size: 0.78em; color: #666; line-height: 1.4; flex: 1; }
-.next-card-btn {
-    display: inline-block;
-    padding: 5px 14px;
-    background: #f72585;
-    color: white !important;
-    border-radius: 4px;
-    font-size: 0.78em;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    align-self: flex-start;
-    margin-top: 4px;
-    text-decoration: none;
-}
-.next-card-btn:hover { background: #c91f72; }
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 // Survey seeded data keyed by question text
 var surveySeedData = {
@@ -410,9 +274,7 @@ function showResults(survey, votedIndex, counts) {
     }
 }
 
-// ── Firebase config ──────────────────────────────────────────────────────────
-// Fill in your values from: console.firebase.google.com
-//   Project Settings → General → Your apps → SDK setup and configuration
+// ── Firebase ──────────────────────────────────────────────────────────────────
 var FIREBASE_CONFIG = {
     apiKey: "AIzaSyAtt3eWqa4063OFd3HviZdHZcW7j8MPedk",
     databaseURL: "https://spaces-survey-default-rtdb.firebaseio.com"
@@ -552,29 +414,6 @@ function processPassageContent() {
         }
     );
 
-    // Step 3.3: Process What's Next? cards — lines starting with >>>Passage Name | Description
-    html = html.replace(
-        /(<p>&gt;&gt;&gt;[^<]+<\/p>\s*)+/g,
-        function(block) {
-            var cards = '';
-            block.replace(/<p>&gt;&gt;&gt;([^|<]+)\|([^<]+)<\/p>/g, function(m, name, desc) {
-                name = name.trim();
-                desc = desc.trim();
-                var initials = name.split(/\s+/).map(function(w) { return w.charAt(0); }).join('').substring(0, 2).toUpperCase();
-                cards += '<div class="next-card">' +
-                    '<div class="next-card-header">' +
-                        '<div class="next-card-dot">' + initials + '</div>' +
-                        '<div class="next-card-title">' + name + '</div>' +
-                    '</div>' +
-                    '<div class="next-card-desc">' + desc + '</div>' +
-                    '<button class="next-card-btn" onclick="window.story.show(\'' + name.replace(/'/g, "\\'") + '\')">Start</button>' +
-                '</div>';
-            });
-            return '<p class="whats-next-intro">Ready to learn more? Check out these suggested modules!</p>' +
-                '<div class="next-cards-grid">' + cards + '</div>';
-        }
-    );
-
     // Step 3.5: Process @@@ tabbed code groups
     // Syntax: @@@ filename on its own line before each code block, bare @@@ to close the group
     var tabGroupIndex = 0;
@@ -618,38 +457,13 @@ function processPassageContent() {
     fetchSurveyCounts();
 
     // Step 5.6: Process collapsible sections (headings starting with ^^)
-    var collapseIconMap = [
-        { match: 'code',        file: 'icon_code.png' },
-        { match: 'flashcard',   file: 'icon_flashcards.png' },
-        { match: 'umer',        file: 'icon_umersRamblings.png' },
-        { match: "who",         file: 'icon_whosRight.png' },
-        { match: "what's next", file: 'icon_whatsNext.png' }
-    ];
     var headings = passage.querySelectorAll('h1, h2, h3, h4, h5, h6');
     for (var h = 0; h < headings.length; h++) {
         var heading = headings[h];
-        if (heading.classList.contains('collapsible-heading')) continue;
-        var rawHtml = heading.innerHTML;
-        var text = heading.textContent.trim();
-        // Accept ^^ in either textContent (plain) or innerHTML (Marked.js may strip it to a tag)
-        var hasMarker = text.indexOf('^^') === 0 || rawHtml.indexOf('^^') !== -1;
-        if (!hasMarker) continue;
-        var titleLower = text.replace(/\^\^/g, '').trim().toLowerCase();
-        // Match icon by heading text
-        var iconFile = null;
-        for (var ic = 0; ic < collapseIconMap.length; ic++) {
-            if (titleLower.startsWith(collapseIconMap[ic].match)) { iconFile = collapseIconMap[ic].file; break; }
-        }
-        // Override with video icon if the content after this heading contains an iframe
-        var peekSib = heading.nextSibling;
-        while (peekSib) {
-            if (peekSib.nodeType === 1 && /^H[1-6]$/.test(peekSib.tagName)) break;
-            if (peekSib.nodeType === 1 && peekSib.querySelector && peekSib.querySelector('iframe')) { iconFile = 'icon_video.png'; break; }
-            peekSib = peekSib.nextSibling;
-        }
-        var iconHtml = iconFile ? '<img class="collapse-icon" src="images/' + iconFile + '" alt="" />' : '';
-        // Order: [icon] [text] [arrow] — arrow gets margin-left:auto so it sits on the right
-        heading.innerHTML = iconHtml + heading.innerHTML.replace(/\^\^/g, '').replace(/<sup><\/sup>/g, '') + '<span class="collapse-arrow">&#9654;</span>';
+        var text = heading.textContent;
+        if (text.indexOf('^^') !== 0) continue;
+        // Strip the ^^ marker from the heading text
+        heading.innerHTML = '<span class="collapse-arrow">&#9654;</span>' + heading.innerHTML.replace('^^', '');
         heading.classList.add('collapsible-heading');
         // Collect all siblings after this heading until the next heading or end
         var contentDiv = document.createElement('div');
@@ -663,29 +477,7 @@ function processPassageContent() {
         }
         heading.parentNode.insertBefore(contentDiv, heading.nextSibling);
         // Add inline click handler (survives innerHTML round-trips, same pattern as flashcards)
-        heading.setAttribute('onclick', "this.classList.toggle('open'); var c=this.nextElementSibling; if(c) c.classList.toggle('open');");
-    }
-
-    // Step 5.7: Add icons to non-collapsible headings (video before iframe, what's next by text)
-    var allHeadings = passage.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    for (var ah = 0; ah < allHeadings.length; ah++) {
-        var aHeading = allHeadings[ah];
-        if (aHeading.classList.contains('collapsible-heading')) continue;
-        if (aHeading.querySelector('.collapse-icon')) continue; // already processed
-        var aIconFile = null;
-        var aSib = aHeading.nextSibling;
-        while (aSib) {
-            if (aSib.nodeType === 1 && /^H[1-6]$/.test(aSib.tagName)) break;
-            if (aSib.nodeType === 1 && aSib.querySelector && aSib.querySelector('iframe')) { aIconFile = 'icon_video.png'; break; }
-            aSib = aSib.nextSibling;
-        }
-        if (!aIconFile && aHeading.textContent.trim().toLowerCase().startsWith("what's next")) {
-            aIconFile = 'icon_whatsNext.png';
-        }
-        if (aIconFile) {
-            aHeading.classList.add('icon-heading');
-            aHeading.innerHTML = '<img class="collapse-icon" src="images/' + aIconFile + '" alt="" />' + aHeading.innerHTML;
-        }
+        heading.setAttribute('onclick', "this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');");
     }
 
     // Step 6: Syntax-highlight code blocks with hljs (if loaded)
@@ -708,205 +500,6 @@ function processPassageContent() {
 }
 $('tw-passage').on('sm.passage.shown', processPassageContent);
 $(document).ready(processPassageContent);
-
-// Inject top nav bar with live search
-$(document).ready(function() {
-    var nav = document.createElement('div');
-    nav.id = 'top-nav';
-    nav.innerHTML =
-        '<span class="top-nav-brand">Spaces Project</span>' +
-        '<div class="top-nav-search-wrap">' +
-            '<input class="top-nav-search" type="text" placeholder="Search passages…" autocomplete="off" />' +
-            '<div class="top-nav-search-results" id="search-results"></div>' +
-        '</div>';
-    document.body.insertBefore(nav, document.body.firstChild);
-
-    // Build search index from tw-passagedata elements
-    function buildIndex() {
-        var index = [];
-        document.querySelectorAll('tw-passagedata').forEach(function(p) {
-            var name = p.getAttribute('name') || '';
-            // Strip Twine markup (links, HTML entities) for plain-text snippet
-            var raw = p.textContent || '';
-            raw = raw.replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, '$1'); // [[link]] or [[text|target]]
-            raw = raw.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-            index.push({ name: name, text: raw });
-        });
-        return index;
-    }
-
-    var searchIndex = null;
-    var activeIdx = -1;
-
-    function highlight(str, query) {
-        var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        return str.replace(new RegExp('(' + escaped + ')', 'gi'), '<strong>$1</strong>');
-    }
-
-    function snippet(text, query, maxLen) {
-        maxLen = maxLen || 80;
-        var lower = text.toLowerCase();
-        var pos = lower.indexOf(query.toLowerCase());
-        var start = Math.max(0, pos - 30);
-        var chunk = text.substr(start, maxLen);
-        if (start > 0) chunk = '…' + chunk;
-        if (start + maxLen < text.length) chunk += '…';
-        return highlight(chunk, query);
-    }
-
-    function runSearch(query) {
-        if (!searchIndex) searchIndex = buildIndex();
-        var results = document.getElementById('search-results');
-        activeIdx = -1;
-        query = query.trim();
-        if (query.length < 2) {
-            results.innerHTML = '';
-            results.classList.remove('open');
-            return;
-        }
-        var lower = query.toLowerCase();
-        var matches = searchIndex.filter(function(p) {
-            return p.name.toLowerCase().indexOf(lower) !== -1 ||
-                   p.text.toLowerCase().indexOf(lower) !== -1;
-        });
-        if (matches.length === 0) {
-            results.innerHTML = '<div class="search-no-results">No passages found</div>';
-        } else {
-            results.innerHTML = matches.slice(0, 10).map(function(p, i) {
-                var titleHtml = highlight(p.name, query);
-                var snippetHtml = p.text.toLowerCase().indexOf(lower) !== -1
-                    ? '<div class="search-result-snippet">' + snippet(p.text, query) + '</div>'
-                    : '';
-                return '<div class="search-result-item" data-name="' + p.name.replace(/"/g, '&quot;') + '">' +
-                    titleHtml + snippetHtml + '</div>';
-            }).join('');
-        }
-        results.classList.add('open');
-
-        // Click handler for items
-        results.querySelectorAll('.search-result-item').forEach(function(item) {
-            item.addEventListener('click', function() {
-                var name = this.getAttribute('data-name');
-                var query = searchInput.value.trim();
-                closeSearch();
-                navigateAndHighlight(name, query);
-            });
-        });
-    }
-
-    function closeSearch() {
-        var results = document.getElementById('search-results');
-        results.classList.remove('open');
-        document.querySelector('.top-nav-search').value = '';
-        activeIdx = -1;
-    }
-
-    function navigateAndHighlight(name, query) {
-        window._pendingSearchQuery = query;
-        window.story.show(name);
-    }
-
-    // After passage renders, scroll to and briefly highlight the matched text
-    function highlightSearchMatch(query) {
-        var passage = document.querySelector('tw-passage');
-        if (!passage || !query) return;
-        var lower = query.toLowerCase();
-        var walker = document.createTreeWalker(passage, NodeFilter.SHOW_TEXT, null, false);
-        var node;
-        while ((node = walker.nextNode())) {
-            var idx = node.textContent.toLowerCase().indexOf(lower);
-            if (idx === -1) continue;
-
-            var el = node.parentElement;
-
-            // If matched text is inside (or is) a collapsible heading — open the section
-            var matchedHeading = el ? el.closest('.collapsible-heading') : null;
-            if (matchedHeading) {
-                matchedHeading.classList.add('open');
-                var nextEl = matchedHeading.nextElementSibling;
-                if (nextEl && nextEl.classList.contains('collapsible-content')) {
-                    nextEl.classList.add('open');
-                }
-            }
-
-            // If matched text is inside a (hidden) collapsible body — open it
-            var matchedContent = el ? el.closest('.collapsible-content') : null;
-            if (matchedContent) {
-                matchedContent.classList.add('open');
-                var prevEl = matchedContent.previousElementSibling;
-                if (prevEl && prevEl.classList.contains('collapsible-heading')) {
-                    prevEl.classList.add('open');
-                }
-            }
-
-            // Wrap the matched text in a highlight mark and scroll to it
-            try {
-                var range = document.createRange();
-                range.setStart(node, idx);
-                range.setEnd(node, idx + query.length);
-                var mark = document.createElement('mark');
-                mark.style.cssText = 'background:#4cc9f0;color:#1a1a2e;border-radius:2px;padding:0 2px;';
-                range.surroundContents(mark);
-                // Scroll the mark's element into view within tw-story (the scrollable container)
-                mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(function() {
-                    if (mark.parentNode) {
-                        mark.parentNode.replaceChild(document.createTextNode(mark.textContent), mark);
-                        mark.parentNode && mark.parentNode.normalize();
-                    }
-                }, 2500);
-            } catch(e) {
-                // range.surroundContents crossed an element boundary — just scroll to the parent element
-                var target = matchedHeading || matchedContent || el;
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            return;
-        }
-    }
-
-    $('tw-passage').on('sm.passage.shown', function() {
-        var query = window._pendingSearchQuery;
-        if (!query) return;
-        window._pendingSearchQuery = null;
-        // Wait for processPassageContent to finish rewriting innerHTML
-        setTimeout(function() { highlightSearchMatch(query); }, 200);
-    });
-
-    var searchInput = document.querySelector('.top-nav-search');
-
-    searchInput.addEventListener('input', function() {
-        runSearch(this.value);
-    });
-
-    // Keyboard navigation
-    searchInput.addEventListener('keydown', function(e) {
-        var results = document.getElementById('search-results');
-        var items = results.querySelectorAll('.search-result-item');
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            activeIdx = Math.min(activeIdx + 1, items.length - 1);
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            activeIdx = Math.max(activeIdx - 1, 0);
-        } else if (e.key === 'Enter' && activeIdx >= 0 && items[activeIdx]) {
-            var name = items[activeIdx].getAttribute('data-name');
-            var query = searchInput.value.trim();
-            closeSearch();
-            navigateAndHighlight(name, query);
-            return;
-        } else if (e.key === 'Escape') {
-            closeSearch();
-            return;
-        }
-        items.forEach(function(item, i) { item.classList.toggle('active', i === activeIdx); });
-        if (items[activeIdx]) items[activeIdx].scrollIntoView({ block: 'nearest' });
-    });
-
-    // Close when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.top-nav-search-wrap')) closeSearch();
-    });
-});
 
 // Load Three.js from CDN
 (function() {
@@ -1048,8 +641,10 @@ function addMapToCurrentPassage() {
     const passage = document.querySelector("tw-passage");
     if (!passage) return;
 
+    // Check if container already exists in this passage (either wrapper or direct container)
     let existingContainer = passage.querySelector("#passage-graph");
     if (existingContainer) {
+        // Add hints if not already present
         if (!passage.querySelector("#passage-graph-hints")) {
             const hints = document.createElement("p");
             hints.id = "passage-graph-hints";
@@ -1057,6 +652,7 @@ function addMapToCurrentPassage() {
             hints.textContent = "Click to navigate · Drag to rotate · Right-drag to pan · Ctrl+scroll to zoom";
             existingContainer.after(hints);
         }
+        // Container exists - use it or update arrow
         if (!persistentMapCreated) {
             existingContainer.style.height = (existingContainer.clientWidth * getCanvasAspectRatio()) + "px";
             existingContainer.style.paddingBottom = "0";
@@ -1078,6 +674,7 @@ function addMapToCurrentPassage() {
         return;
     }
 
+    // Create wrapper with header
     const wrapper = document.createElement("div");
     wrapper.id = "passage-graph-wrapper";
     wrapper.innerHTML = "<h3>I'm lost. Can I see the big picture again?</h3>";
@@ -1095,15 +692,19 @@ function addMapToCurrentPassage() {
     wrapper.appendChild(hints);
     passage.appendChild(wrapper);
 
+    // Create or move visualization
     if (!persistentMapCreated) {
         createVisualization(container);
         persistentMapCreated = true;
     } else {
+        // Move existing canvas to new container
         if (persistentRenderer) {
             container.style.height = (container.clientWidth * getCanvasAspectRatio()) + "px";
             container.style.paddingBottom = "0";
             container.appendChild(persistentRenderer.domElement);
             updateArrowPosition();
+
+            // Update renderer size
             const width = container.clientWidth || 800;
             const height = width * getCanvasAspectRatio();
             persistentRenderer.setSize(width, height);
@@ -1207,8 +808,11 @@ function createVisualization(container) {
             const newDistance = Math.max(100, Math.min(1500, currentDistance * (1 + event.deltaY * zoomSpeed)));
             camera.position.copy(controls.target).addScaledVector(direction, newDistance);
         } else {
+            // Manually scroll the tw-story container (for itch.io fullscreen mode)
             const twStory = document.querySelector('tw-story');
-            if (twStory) twStory.scrollTop += event.deltaY;
+            if (twStory) {
+                twStory.scrollTop += event.deltaY;
+            }
         }
     }, { capture: true, passive: false });
 
@@ -1292,6 +896,10 @@ function createVisualization(container) {
             const name = intersects[0].object.userData.name;
             if (window.story && window.story.show) {
                 window.story.show(name);
+                setTimeout(function() {
+                    var twStory = document.querySelector('tw-story');
+                    if (twStory) twStory.scrollTop = 0;
+                }, 50);
             }
         }
     });
@@ -1321,6 +929,10 @@ function createVisualization(container) {
             const name = intersects[0].object.userData.name;
             if (window.story && window.story.show) {
                 window.story.show(name);
+                setTimeout(function() {
+                    var twStory = document.querySelector('tw-story');
+                    if (twStory) twStory.scrollTop = 0;
+                }, 50);
             }
         }
     }, { passive: true });
@@ -1379,9 +991,9 @@ function createVisualization(container) {
         const newWidth = container.clientWidth || 800;
         const newHeight = newWidth * getCanvasAspectRatio();
         container.style.height = newHeight + "px";
-        renderer.setSize(newWidth, newHeight);
         camera.aspect = newWidth / newHeight;
         camera.updateProjectionMatrix();
+        renderer.setSize(newWidth, newHeight);
     });
 
     // Create arrow indicator
@@ -1497,21 +1109,21 @@ function createVisualization(container) {
     // Highlight current passage - get name from passage element
     highlightCurrentPassage();
 }
-</script><tw-tag name="Done" color="orange"></tw-tag><tw-passagedata pid="1" name="Intro to spaces" tags="Done" position="300,300" size="100,100">### Intro to spaces
+</script><tw-tag name="Done" color="orange"></tw-tag><tw-passagedata pid="1" name="Intro to spaces" tags="Done" position="300,300" size="100,100">### ▶️Intro to spaces
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=1b332e4e-6754-416e-8f9e-b4520124a0a5&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=false&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SPACESProj_V01_Introduction_exp9_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch (TLDW):
+### 👀Too Long; Didn&#39;t Watch (TLDW):
 This video series steps through all the spaces and math needed to get your artist&#39;s model onto the screen.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??The space between model space and camera space is called:??World Space??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%This whole project started when Umer wanted to write a math book. Scott said nobody reads anymore, an interactive website would be better. Who&#39;s right?%%Umer - Books are the fountain of knowledge%%Scott - Kids use the web more nowadays%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 
 I have a secret to share. The reason this whole series is about “spaces” is just to annoy my dear friend and colleague Dr. Scott Fielder. You see, he was there when computer graphics really started kicking off in the 1980s, and researchers were figuring out how to get 3D models onto the screen efficiently. He used things like the Model-View-Projection matrix, which speeds you through a whole bunch of spaces without blinking. In fact he doesn’t even like the word “spaces”, I mean it’s all just matrix multiplication in the end.
 
@@ -1519,7 +1131,7 @@ The importance of “spaces” struck me when I became program coordinator for o
 
 The term “spaces” seems so vague but there are concrete definitions for the chain of operations needed to get a 3D object from an artist onto your screen. Writing mathematics and code for the right space can save you a huge headache down the line, so I think it is worthwhile exploring these spaces and seeing how to jump between them. Hopefully I’ll convince Scott by the end of this series too :)
 
-### ^^Code
+### ^^💻Code
 Seriously, you want code already? OK, this won&#39;t make sense but here you go:
 
 ```cpp
@@ -1541,41 +1153,41 @@ vertexPosNdcSpace.w = 1.0f;
 Vec4 vertexPosScreenSpace = viewportMatrix * vertexPosNdcSpace;
 ```
 
-### What&#39;s next?
+### ⏭️What&#39;s next?
 
 Let&#39;s start with our artist, professor Paul Neale, building a 3D object in [[model space-&gt;Model Space]], though feel free to ignore me and explore the map below:
 
-&lt;div id=&quot;passage-graph&quot; style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="2" name="Model Space" tags="Done" position="325,525" size="100,100">### Model Space (part 1)
+&lt;div id=&quot;passage-graph&quot; style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="2" name="Model Space" tags="Done" position="325,525" size="100,100">### ▶️Model Space (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=4c2c529f-f999-4243-b732-b45201252f9c&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V02_ModelSpace_1_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Model Space (part 2)
+### ^^▶️Model Space (part 2)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=9db36368-5bd3-4469-aa61-b45200e06116&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V02_ModelSpace_2_exp5_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Model Space (part 3)
+### ^^▶️Model Space (part 3)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=cbddd7ba-92b5-4f55-900f-b45200e069fe&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V02_ModelSpace_3_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Model Space (bonus video)
+### ^^▶️Model Space (bonus video)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=703285cf-3b75-44d5-a63e-b45200e49b73&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V02_ModelSpace_xtra_exp4_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 The rendering pipeline all starts with the artist, in our case Professor Paul Neale! He creates the vertices, normals, and texture coordinates which all reside in model space.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??
 How many triangles do you need to make a quad
 ??
 2
 ??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%
 The Utah teapot is one of the standard test models for computer graphics, but there&#39;s also the Standford bunny, the Caltech cow, and Blender&#39;s chimpanzee:
 
@@ -1602,7 +1214,7 @@ Cow
 Chimpanzee
 %%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 I like using the term &quot;Paul Neale&quot; space, rather than model space, as it helps when I’m communicating with Scott. It&#39;s easy to get confused when books refer to model space as “object” or “local” space. The rendering process starts with the artist making decisions, so why not go with your favorite artist instead? In fact, I told Paul he is like the multiverse in our program! There is only one world space, but there are infinitely many Paul Neale spaces! Well, not infinite, but every object that Paul creates has its own model space that programmers need to consider when jumping over to world space.
 
 When an artist finishes a 3D model, they click a button in their program to export it as a file. In our Game Programming program, we like handling &quot;OBJ&quot; files. They are simpler than other popular formats, but they are easy to read and a great learning environment for programmers. The OBJ file stores the vertices, normals, and texture coordinates that were created by the artist. When I explain &quot;Paul Neale space” to the man himself, I usually point at an OBJ file as that&#39;s where our programmers interface with models. Let&#39;s attempt to be a 3D artist by creating a simple square as an OBJ file:
@@ -1671,7 +1283,7 @@ To see if the texture coordinates work, I used one of my pictures as the texture
 
 Typing out a 3D model is fine for a square, but it quickly gets out of hand with anything more complicated. Try downloading Blender (www.blender.org) or opening your favorite 3D art tool to make something more interesting. Export your model as an OBJ file and compare it to the simple one we built for the square. Then breathe a sigh of relief as we don’t need to type out model space by hand!
 
-### ^^Code
+### ^^💻Code
 Here&#39;s how Scott reads an OBJ file using the tinyobjloader library in his Mesh class:
 ```cpp
 void Mesh::LoadModel(const char* filename) {
@@ -1711,22 +1323,22 @@ void Mesh::LoadModel(const char* filename) {
 }
 ```
 
-### What&#39;s next?
-Let&#39;s dig deeper into the [[Vertex Positions]] and [[Normals]] that the artist has provided.</tw-passagedata><tw-passagedata pid="3" name="World Space" tags="Done" position="475,525" size="100,100">### World Space
+### ⏭️What&#39;s next?
+Let&#39;s dig deeper into the [[Vertex Positions]] and [[Normals]] that the artist has provided.</tw-passagedata><tw-passagedata pid="3" name="World Space" tags="Done" position="475,525" size="100,100">### ▶️World Space
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=e1701415-e10f-482d-8b56-b45200e9b70c&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpaceProject_V10_WorldSpace_exp11_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 Welcome to Cassidy&#39;s World Space! Just like The Sims, you get to dress up your own building. Each model has been made by a 3D artist but Cassidy decides the size, orientation and position. She also places the camera and lights up the world.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??Each model brought into world space needs it&#39;s own scale, rotation, and:??translation (or you might say position)??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Umer loves doing all his physics stuff in World space. This annoys Scott, as Umer ends up talking about the camera moving about. Who&#39;s right?%%Umer - Let&#39;s move the camera close to see my cool physics sim%%Scott - Quit talking about the camera moving. It&#39;s the world moving instead! %%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 
 World space is where the action happens. All those models that your artist has created are finally together in one scene with a camera and lights. We only have one world, planet Earth, but you can imagine swapping worlds in a video game when you get to the next level, and each scene would have its own set of models, lights and camera setup. Things are happening in world space, objects can have velocity, animations and all sorts of movements. With one origin location and reference frame for all the objects in the world, it is easy to compare distances between models and have them interact with each other.
 
@@ -1742,7 +1354,7 @@ If that all sounds very annoying, then just ensure your model matrix only perfor
 
 Sometimes you arrive at World space from Camera space. I do that often when figuring out where the mouse has been clicked in Pixel space and working out where that is in World space. In that case, the view matrix is handy! That takes you from World space to Camera space, so using the inverse of the view matrix will do the trick to go the other way. Apply that to your position in Camera space, and bingo you are in World space!
 
-### ^^Code
+### ^^💻Code
 To get to world space from model space:
 ```cpp
 // Grab a 3D vertex from Paul Neale&#39;s model and turn it into 4D
@@ -1773,24 +1385,24 @@ Vec4 vertexPosWorldSpace   = MMath::inverse(viewMatrix) * vertexPosCameraSpace;
 Vec4 vertexNormalWorldSpace   = MMath::inverse(viewMatrix) * vertexNormalCameraSpace;
 ```
 
-### What&#39;s next?
+### ⏭️What&#39;s next?
 When someone is playing a game they don&#39;t usually see the camera - they are the camera. It is handy to translate and rotate everything so that the camera is at the origin [0, 0, 0] looking down the -z axis. That is called [[Camera Space]] and we get from here to there using the [[View Matrix]]. 
 
-When you are clicking on objects, it is handy to have all your math in the same space as the model itself. To head into [[Model Space]], use the inverse of the [[Model Matrix]] </tw-passagedata><tw-passagedata pid="4" name="Camera Space" tags="Done" position="625,525" size="100,100">### Camera Space
+When you are clicking on objects, it is handy to have all your math in the same space as the model itself. To head into [[Model Space]], use the inverse of the [[Model Matrix]] </tw-passagedata><tw-passagedata pid="4" name="Camera Space" tags="Done" position="625,525" size="100,100">### ▶️Camera Space
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=6aee0924-8096-48a8-9184-b45200eaec80&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpaceProject_V12_CameraSpace_exp6_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 The camera is always at the origin looking down the -z axis, dammit! (Scott probably wrote this).
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??If your silly make-believe camera in world space is at position (0, 0, 5), then in camera space the world is translated by:??(0, 0, -5)??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Scott is quite adamant about the camera not existing. Who&#39;s right?%%Scott - It&#39;s not the camera that moves, it&#39;s the world!%%Everyone else - *Points at a camera* %%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 
 As Scott likes to remind me, it&#39;s all relative. Do we want to move the camera, or should we just move the world? As we prepare our scene to be displayed on screen, it is useful to have the camera at the origin location (0, 0, 0) and to be looking along a certain direction. That makes the later operations such as ignoring objects out of the camera&#39;s view and the illusion of perspective easier to handle mathematically. 
 
@@ -1800,7 +1412,7 @@ I do all my physics stuff in World space, but I do listen to Scott sometimes - C
 
 If you have a position in Normalized Device Coordinate (NDC) space and want to come over here to Camera space, you need a different approach. The NDC cube is very different to Camera space. Objects near the front clipping plane are huge and things towards the back are tiny to provide perspective. The origin is in the middle of the box, and somebody decided it should use the left-handed coordinate system. To convert all this to Camera space (which is right-handed for us) you would need to use the inverse projection matrix followed by a perspective divide. That will put the camera back at the origin looking along the -z axis and undo the perspective scaling. That makes Scott happy again!
 
-### ^^Code
+### ^^💻Code
 To get to camera space from world space:
 ```cpp
 // Grab a 3D vertex from world space, turn it into 4D. Set w = 1, as we want to translate
@@ -1826,24 +1438,24 @@ Vec4 vertexPosCamera = VMath::perspectiveDivide(vertexPosClipSpace);
 // about how to transfer those over to Camera space
 ```
 
-### What&#39;s next?
+### ⏭️What&#39;s next?
 The camera can only see so much of our scene, so it is handy to jump to [[NDC Space]]  where we are in a lovely box with width, height, and length of 2. Anything outside the box is outside our view, so forget about drawing them. This operation happens via the [[Projection Matrix]] and a sneaky [[Perspective Divide]]. 
 
-</tw-passagedata><tw-passagedata pid="5" name="NDC Space" tags="Done" position="800,525" size="100,100">### Normalized Device Coordinate (NDC) Space
+</tw-passagedata><tw-passagedata pid="5" name="NDC Space" tags="Done" position="800,525" size="100,100">### ▶️Normalized Device Coordinate (NDC) Space
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=f4525ea5-7927-4317-814e-b43d00d490a9&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V15_NDC Spce_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 Imagine a tiny version of your computer screen, but it&#39;s a 3D cube. All the objects visible on your screen are in the box, with things closer to the front of the box much bigger than the ones at the back. That box is called Normalized Device Coordinate (NDC) space.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??The width of the NDC box is:??2 units??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%The OpenGL graphics library uses a cube for NDC space. It&#39;s left-handed with z = -1 at the front plane and z = 1 at the back. The successor to OpenGL, called Vulkan, doesn&#39;t use a cube. It&#39;s a rectangular cuboid (think of a 3D rectangle). It&#39;s right-handed, with z = 0 at the front and z = 1 at the back. Who&#39;s right?%%OpenGL - Cubes are cute and we should give left handedness a try%%Vulkan - Makes sense that z=0 at the front of the plane and I keep forgetting to switch from right handed to left handed%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 
 A student brought in an NES console with a portable CRT television to my class this semester. He had bought them at a garage sale and was very excited to play some vintage gaming during our break. As he was smacking the TV to get it working, I was reminded that monitors looked like boxes when I was young. Monitors are light and thin nowadays, but they used to be quite heavy and would take up a fair amount of space. Whilst I watched my student play Super Mario Bros., it struck me that it was a nice visual of Normalized Device Coordinate space. His CRT monitor looked like the NDC box which leads us to the final stage of the rendering pipeline with Mario on the screen.
 
@@ -1852,7 +1464,7 @@ Of course, we shouldn&#39;t get too carried away with analogies. The NDC box is 
 When you are planning out a 3D game, you place your models and lights in the world and set up the camera position and orientation. But the player does not see the actual camera, they only see what the camera would see. Anything outside of the camera&#39;s view is not rendered, and models closer to the camera seem much bigger than things in the distance. This illusion of a viewing volume and perspective is all set up when you get to NDC space from camera space via the projection matrix and perspective divide. What you see in the NDC box is very similar to what you want on screen, you just have to squint and give it a smack using something called the viewport matrix.
 
 
-### ^^Code
+### ^^💻Code
 To get to NDC space from camera space:
 ```cpp
 // The perspective projection matrix takes you from camera to clip space
@@ -1878,25 +1490,25 @@ mousePosNDCSpace.z = -1.0f;
 // We don&#39;t typically think about normals in pixel space, so we are done!
 ```
 
-### What&#39;s next?
+### ⏭️What&#39;s next?
 
 To actually show something on screen we need to stretch the NDC box to the screen resolution in pixels and place the origin in the top left corner. That is called [[Pixel Space]] and you get there using the [[Viewport Matrix]]. 
 
-What if you have clicked on something with your mouse and have that position in NDC space? That&#39;s when you need to hop over to [[Camera Space]] using the inverse [[Projection Matrix]] and the [[Perspective Divide]].</tw-passagedata><tw-passagedata pid="6" name="Pixel Space" tags="Done" position="950,525" size="100,100">### Pixel Space
+What if you have clicked on something with your mouse and have that position in NDC space? That&#39;s when you need to hop over to [[Camera Space]] using the inverse [[Projection Matrix]] and the [[Perspective Divide]].</tw-passagedata><tw-passagedata pid="6" name="Pixel Space" tags="Done" position="950,525" size="100,100">### ▶️Pixel Space
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=201f92da-cb18-43cd-b945-b45200f032ac&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpaceProject_V17_PixelSpace_exp5_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 We&#39;ve come to the end of the rendering pipeline, and finally have the beautiful 3D models on the screen.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??The origin (0, 0) in pixel space is located at:??The top left corner of the screen??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Umer didn&#39;t listen and named this whole page Pixel space rather than Screen space. Who&#39;s right?%%Umer - You are looking at pixels! %%Everyone else - I&#39;m looking at a screen!%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 
 Reach out and touch your screen. This is pixel space! I&#39;m typing on my laptop with a screen resolution of 2560 x 1600. That means there are 2560 pixels across and 1600 pixels going up and down. That&#39;s over 4 million tiny pixels covering my screen. Looking up the specs online, my screen has 188 pixels per inch. Converting that over to millimetres, each pixel on my screen is about 0.1 mm in length. That&#39;s tiny! No wonder I can&#39;t see the individual pixels by eye.
 
@@ -1911,7 +1523,7 @@ Pixel space is surprisingly similar to Normalized Device Coordinate (NDC) space.
 If you clicked on the screen and want to figure out what you clicked on, you&#39;ll need to hop over from Pixel to NDC space. That just involves the inverse of the viewport matrix. Then you can click or tap at your heart&#39;s content.
 
 
-### ^^Code
+### ^^💻Code
 To get to Pixel space from NDC space:
 ```cpp
 // Grab a 3D vertex from NDC space, turn it into 4D. Set w = 1, as we want to translate it
@@ -1931,23 +1543,23 @@ Vec4 mousePosPixelSpace(static_cast&lt;float&gt;(sdlEvent.button.x), static_cast
 Vec4 mousePosNDCSpace = MMath::inverse(viewportMatrix) * mousePosPixelSpace;
 ```
 
-### What&#39;s next?
+### ⏭️What&#39;s next?
 
-What if you clicked on an object with your mouse? How would you know what part of what model you&#39;ve interacted with? To start that journey we need to head to [[NDC Space]] using the inverse of the [[Viewport Matrix]].</tw-passagedata><tw-passagedata pid="7" name="Scale" tags="Done" position="175,375" size="100,100">### Scale
+What if you clicked on an object with your mouse? How would you know what part of what model you&#39;ve interacted with? To start that journey we need to head to [[NDC Space]] using the inverse of the [[Viewport Matrix]].</tw-passagedata><tw-passagedata pid="7" name="Scale" tags="Done" position="175,375" size="100,100">### ▶️Scale
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=86234cba-cd9a-4f0f-bf2d-b42400e45577&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V05_Scale_exp1_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch:
+### 👀Too Long; Didn&#39;t Watch:
 The scale matrix can make your model bigger, smaller, or even squished and stretched.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??To make a model bigger along all three dimensions, the scale factors in the scale matrix need to be all larger than:??1??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Scott likes to flip the sign of the scale factor in the scale matrix to perform a reflection. This upsets Umer. Who&#39;s right?%%Scott - what&#39;s the big problem, multiplying by a component by negative 1 will just reflect the position along the chosen axis%%Umer - it just feels wrong to have a negative scale factor, can&#39;t we have a reflection matrix instead?%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 I like the scale matrix as it reminds me what a matrix really does. For example, say you want a matrix that does nothing to a vertex. I know it sounds useless, but it&#39;s the default matrix whenever you create one in a game engine. In math that would be the equations x = x, y = y and z = z. Nothing ground-breaking. But remember, we can represent a system of equations using matrices, so let&#39;s see how it works in this situation:
 
 &lt;img src=&quot;images/V05_Scale1.png&quot;  style=&quot;width:100%; max-width:100%;&quot;  /&gt;
@@ -1966,7 +1578,7 @@ Notice we only need a 3x3 matrix (three rows and three columns) to represent a s
 
 It might seem like a waste holding so many zeroes in the 4x4 scale matrix, but it really helps as we move along the rendering pipeline and have to combine with other types of transformations. 
 
-### ^^Code
+### ^^💻Code
 Here&#39;s Scott&#39;s scale matrix inside his MMath class:
 ```cpp
 static Matrix4 scale(float x_, float y_, float z_) {
@@ -1981,22 +1593,22 @@ static Matrix4 scale(const Vec3&amp; scale) {
 	return MMath::scale(scale.x, scale.y, scale.z);
 }
 ```
-### What&#39;s next?
-Combine your scale with a [[Rotation]] and a [[Translation]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="8" name="Translation" tags="Done" position="50,450" size="100,100">### Translation
+### ⏭️What&#39;s next?
+Combine your scale with a [[Rotation]] and a [[Translation]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="8" name="Translation" tags="Done" position="50,450" size="100,100">### ▶️Translation
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=39e0ee1e-9754-4aa9-8cd3-b43b00ef665d&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V06_Translations_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 When we say translation, we mean moving something from A to B. It&#39;s just an addition or subtraction along the x, y, and/or z directions.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??The position (1, 2, 3, 1) translated by 1 along x, -2 along y, and 3 along z gives you the final position:??(2, 0, 6, 1)??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Umer prefers to invert the translation matrix to move in the other direction. Scott thinks that&#39;s a waste of time, just negate the direction in the translation matrix. Who&#39;s right?%%Umer - inversing a matrix just makes sense%%Scott - inversing a matrix is an expensive call. Just flip the displacement elements in the matrix will ya!%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 
 How are you reading this sentence? Did you have to move your phone screen towards you or sit yourself in front of a laptop? Somehow these words came close enough to your eyeballs so you could decifer them. That needed a change in position, and we call a translation!
 
@@ -2018,7 +1630,7 @@ Notice that this translation of (1, 2, 3) works when we add one more component t
 
 I know it sounds over the top to jump into 4D space to do something as simple as moving a position. Hang in there, we are just getting you prepped for the wild ride that is the rendering pipeline!
 
-### ^^Code
+### ^^💻Code
 To move a vertex position
 ```cpp
 // Grab a 3D vertex from Paul Neale&#39;s model and turn it into 4D
@@ -2033,35 +1645,35 @@ Vec4 newVertexPos = T * vertexPos;;
 Matrix4 T_inverse = MMath::inverse(T);
 Vec4 originalVertexPos = T_inverse * newVertexPos;
 ```
-### What&#39;s next?
-Combine your translation with a [[Rotation]] and a [[Scale]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="9" name="Rotation" tags="Done" position="175,550" size="100,100">### Rotations (part 1)
+### ⏭️What&#39;s next?
+Combine your translation with a [[Rotation]] and a [[Scale]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="9" name="Rotation" tags="Done" position="175,550" size="100,100">### ▶️Rotations (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=a8f6b427-ffeb-491a-b88d-b4480115ea53&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V07_Rotation_1_exp1_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Rotations (part 2)
+### ^^▶️Rotations (part 2)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=ae630ae3-434e-499a-b768-b4480115ea5f&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V07_Rotation_2_exp3_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
 
-### Too Long; Didn&#39;t Watch:
+### 👀Too Long; Didn&#39;t Watch:
 In 3D we need two things to define a rotation; the angle and the axis of rotation. We can use these to represent rotations using Euler angles, rotation matrices or quaternions.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??The biggest problem with Euler angles is:??Gimbal lock??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Scott likes rotation matrices, Paul prefers using Euler angles, and Umer is obsessed with quaternions. Who do you think is right when it comes to rotating stuff?%%Paul - Euler angles rule%%Scott - Rotation matrices are the boss%%Umer - Quaternions rock%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 We are all spinning. The earth revolves about its axis once a day, our planet orbits the sun once a year, and our star orbits the supermassive black hole in the middle of our galaxy once every 250 million years. That&#39;s the big stuff, but even the smallest bits of matter seem to be spinning too. If you zoom in close enough, you&#39;ll find that we are made of atoms, that are in turn made up of electrons, quarks, and gluons. These tiny quantum particles have a property called &quot;spin&quot; which gives them something called an angular momentum. Quantum spin is very different to what we experience in our lives as only certain values are allowed and it&#39;s a property of things so tiny that they might not have an actual size at all. How can an electron spin if it&#39;s a point particle with no spatial dimension? In fact, if the electron was a ball of spinning charge it would need to be spinning faster than light itself. But the angular momentum of the electron can be precisely measured and is at the heart of quantum mechanics. 
 
 Another weird thing about particle spin is that the axis of rotation is always about the axis measured. Try measuring the spin of an electron about the x axis and you will find the result is always around x or negative x. Switch over to a measurement along the y axis and then you will see the axis of rotation is around y or negative y. Guess what happens if you look at the same electron along the z axis? The spin is now about z or negative z. This is very different to the spin of everyday objects where the axis of rotation doesn&#39;t change based on how you look at it.
 
 If your brain hasn&#39;t fried yet, consider that you can&#39;t stop an electron&#39;s spin. It always has a specific value no matter what you do to the particle. The spin of a quantum particle is a fundamental quantity, like mass and charge, so it&#39;s always there along for the ride. Again, this is drastically different to how things behave in our regular lives. You can have a ball sitting on your table with no spin at all. You can decide to spin it along any axes you like. If you know the angle and axis of rotation, you can rotate anything in a computer simulation just like it would in our day-to-day lives. Things just get very strange when you look closely. 
 
-### ^^Code
+### ^^💻Code
 Here&#39;s how Scott build&#39;s the rotation matrix from angle and axis, or Euler angles, or a quaternion:
 ```cpp
 static Matrix4 rotate(float degrees_, float x_, float y_, float z_) {
@@ -2142,22 +1754,22 @@ static Matrix3 toMatrix3(const Quaternion&amp; q) {
 }
 ```
 
-### What&#39;s next?
-Ever since the game Tomb Raider, developers have leaned towards [[quaternions-&gt;Quaternion]] to represent 3D rotations in game engines. Let&#39;s dig into them further (yes, this is Umer&#39;s decision!).</tw-passagedata><tw-passagedata pid="10" name="Model Matrix" tags="Done" position="400,375" size="100,100">### Model Matrix
+### ⏭️What&#39;s next?
+Ever since the game Tomb Raider, developers have leaned towards [[quaternions-&gt;Quaternion]] to represent 3D rotations in game engines. Let&#39;s dig into them further (yes, this is Umer&#39;s decision!).</tw-passagedata><tw-passagedata pid="10" name="Model Matrix" tags="Done" position="400,375" size="100,100">### ▶️Model Matrix
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=77f8c7e8-03ef-4720-81e8-b4410106fc59&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V09_ModelMatrix_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 You need to scale, rotate and translate the models into world space to set up your scene. Those three transformation matrices are multiplied together to make the model matrix. Just be careful with the order you multiply them!
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??If the matrices for translation (T), rotation (R), and scale (S), are multiplied in the order T * R * S, what transformation occurs first for a position in column vector format:??Scale (S)??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Scott likes to read the model matrix from right to left for models going to world space and left to right for the camera when going to camera space. Umer prefers to read them from right to left for both models and the camera. Who&#39;s right?%%Scott - Makes sense, as the order should switch when setting the camera to the origin looking down -z in camera space%%Umer - Just inverse the model matrix for the camera and you can read right to left too%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 The model matrix is made by multiplying the scale, rotation, and translation matrices together. The really odd thing is that the order of multiplication matters. For example, say you have a vertex position at the origin. If you rotate that 180 degrees about the z axis and then translate by 1 unit to the right, you end up 1 unit to the right. But if you do the whole process again, but start with translating 1 unit to the right, then rotating 180 degrees about z, you end up at a position 1 unit to the left, as shown in my scribbles below:
 
 &lt;img src=&quot;images/V09_Model_Matrix1.png&quot;  style=&quot;width:100%; max-width:100%;&quot;  /&gt;
@@ -2167,7 +1779,7 @@ The fact that it matters if you rotate then translate versus the other way aroun
 The order of multiplication isn&#39;t just important for 3D simulations, it&#39;s built into the very laws of quantum mechanics. When the legendary physicist Paul Dirac was thinking about electrons moving close to the speed of light in 1928, he was faced with an equation where A * B had to equal to -B * A. He turned to matrices, where the order of multiplication matters and he could rely on them not commuting. His equation matched experimental observations to a stunning degree and even predicted the existence of antimatter a few years before the discovery of the positron. It turns out that &quot;commuting or non-commuting&quot; isn&#39;t just a question about how you get to work, it&#39;s also how the universe works.
 
 
-### ^^Code
+### ^^💻Code
 Here&#39;s Umer&#39;s model matrix call for his physics class. Assume the Body object has a position called pos, a quaternion for orientation, and it&#39;s a sphere with a given radius.
 ```cpp
 Matrix4 Body::GetModelMatrix() const {
@@ -2179,27 +1791,27 @@ Matrix4 Body::GetModelMatrix() const {
 }
 ```
 
-### What&#39;s next?
-Now that you have combined [[Scale]], [[Rotation]], and [[Translation]] into one matrix, you can transform the [[Vertex Positions]] and [[Normals]] from [[Model Space]] to [[World Space]]. </tw-passagedata><tw-passagedata pid="11" name="Vertex Positions" tags="Done" position="250,675" size="100,100">### Vertex Positions (part 1)
+### ⏭️What&#39;s next?
+Now that you have combined [[Scale]], [[Rotation]], and [[Translation]] into one matrix, you can transform the [[Vertex Positions]] and [[Normals]] from [[Model Space]] to [[World Space]]. </tw-passagedata><tw-passagedata pid="11" name="Vertex Positions" tags="Done" position="250,675" size="100,100">### ▶️Vertex Positions (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=dccf68e7-95f8-40ee-a0ea-b45200e53ebd&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V03_VertexPositions_1_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Vertex Positions (part 2)
+### ^^▶️Vertex Positions (part 2)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=ca2ce62f-6b6f-4eaf-a0f8-b43c00e122d3&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V03_VertexPositions_2_exp1_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 See all those tiny triangles that make up an artist&#39;s model? Each triangle has three sides which meet at three locations. Those corner positions are called vertices.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??The 4th component of a vertex position, known as &quot;w&quot;, is always set to:??1??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Umer and Scott are adamant that the y-axis goes up. Paul says it depends on the software. Who&#39;s right?%%Umer &amp; Scott - Doesn&#39;t everyone have the y-axis pointing up?%%Paul - No! Have you ever used Unreal or 3ds Max?%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 
 Imagine being at home and going from one room to another. You have just changed your position and orientation. But what has actually changed? We are made up of trillions of cells, which are in turn made from a ridiculous number of molecules. The molecules are in turn made of smaller parts all the way down to electrons, quarks, gluons, and a sea of virtual particles. We are made from an unbelievable number of &quot;things&quot;, and all these tiny parts of us have a location that changes as we go about our days. Even the idea of a &quot;location&quot; becomes fuzzy at the smallest scales, with quantum particles having a probability of being somewhere rather than a defined location. These smallest parts of us also behave like particles and waves, which further muddies our general understanding of a position. 
 
@@ -2209,7 +1821,7 @@ We tend to write positions as a vector (x, y, z), with the three numbers corresp
 
 Does all this speak of a (x, y, z, w) vector make you think about 4D space? Don&#39;t stress about it, I find it impossible to imagine anything past three dimensions. I’ve read that 3D space can be thought of as a slice of 4D space where w = 1. That stops my brain from melting on this topic, as I can visualize 2D space as being a slice of 3D, so it&#39;s the same idea but just one dimension up. That is the only somewhat useful thing I have to say about 4D space, so my general advice is not to think about extra dimensions too much. I have found it much more helpful to think about w being an on/off switch for translations or the intersection of three perpendicular planes through the origin. If your w component is 1, you are safely in 3D land. If w = 0, then you are dealing with a direction. If w is any other number, run away! Or even better, divide it out so we get back to a 3D position where w = 1. Ah, I feel better already.
 
-### ^^Code
+### ^^💻Code
 To transform a vertex position from model space to world space
 ```cpp
 // Grab a 3D vertex from Paul Neale&#39;s model and turn it into 4D
@@ -2218,28 +1830,28 @@ Vec4 vertexPos = Vec4(vertex.x, vertex.y, vertex.z, 1.0f);
 // modelMatrix takes you from model to world space
 Vec4 vertexPosWorldSpace = modelMatrix * vertexPos;
 ```
-### What&#39;s next?
-Armed with your vertex positions and [[Normals]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotation]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="12" name="Normals" tags="Done" position="450,650" size="100,100">### Normals (part 1)
+### ⏭️What&#39;s next?
+Armed with your vertex positions and [[Normals]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotation]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="12" name="Normals" tags="Done" position="450,650" size="100,100">### ▶️Normals (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=8cac48d3-7d60-49ad-9f2b-b43c013e087e&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V04_Normals_1_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Normals (part 2)
+### ^^▶️Normals (part 2)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=1c939460-ac6f-4cc6-9318-b43c013e0876&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V04_Normals_2_exp1_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 The normal vector points perpendicular to the model&#39;s surface and is used for lighting.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??
 The normal vector [0, 1, 0] is pointing:
 ??
 Up
 ??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Umer likes to include a w component of zero for his normals to prevent translations. Scott thinks this is a waste of time, as he throws out the translation part of the model matrix when transforming normals. Who&#39;s right?
 %%
 Umer - The normal vector is a direction, so it makes sense to have w = 0.
@@ -2247,7 +1859,7 @@ Umer - The normal vector is a direction, so it makes sense to have w = 0.
 Scott - Forget 4D vectors, we are going to knock down the model matrix to 3x3 anyway when transforming the normals.
 %%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 I usually think of just the vertices when I see a model, but the normals are so important to make an object feel real. I always thought normal vectors are all 90 degrees to the surface rendered, so watching Paul Neale describe how normals can be mapped from a high-resolution model to a low poly version really shocked me. It made me realize that normals don&#39;t have to be tied to the vertices rendered. Studios often strive to render as much detail as possible at their intended frame rate, so it makes sense that artists would use normals from one model, vertices from another, and then combine them on screen to maximize performance.  
 
 I began to understand the importance of normal vectors when I started sitting in Scott&#39;s Computer Graphics course. He describes a model of lighting published by Bui Tuong Phong in 1975. The Phong lighting model was a sensation at the time and it&#39;s my favorite way to see how normal vectors influence the way we view 3D objects. The model starts with a constant called ambient light. That&#39;s the flat color objects have when in shadow as shown below:
@@ -2270,7 +1882,7 @@ Hard to see the ball now, eh? Don’t worry, there is one last move in the Phong
 
 Behold, a beautiful green and shiny ball! Notice that the vertices stayed the same in all the pictures above, but by considering the angle between the light, reflection, and normal directions you can make a 3D object appear like magic.
 
-### ^^Code
+### ^^💻Code
 Here&#39;s Scott&#39;s vertex shader code to transform the vertex normal vector from model space (called vNormal in code) to world space. Note that he is using the glsl language and its implementation of matrices, vectors, and their operations.
 ```cpp
 mat3 normalMatrix = mat3(transpose(inverse(modelMatrix)));
@@ -2302,16 +1914,16 @@ void main() {
 }
 ```
 
-### What&#39;s next?
-Armed with your normals and [[Vertex Positions]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotation]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="13" name="Quaternion" tags="Done" position="50,625" size="100,100">### Quaternions
+### ⏭️What&#39;s next?
+Armed with your normals and [[Vertex Positions]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotation]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="13" name="Quaternion" tags="Done" position="50,625" size="100,100">### ▶️Quaternions
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=7f3ace5f-ccb3-4bbe-8014-b45200e79504&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V08_Quaternions_exp5_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 Quaternions are made up of four numbers, but they can only do one thing. Rotate!
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??The quaternion k is used to rotate an object 180 degrees about the:??z axis??
 
 ??Add quaternions to get the average between them, but afterwards don&#39;t forget to??normalize ??
@@ -2320,10 +1932,10 @@ Quaternions are made up of four numbers, but they can only do one thing. Rotate!
 
 
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Umer likes to complain about the 3x3 identity matrix containing 9 numbers, but the identity quaternion is just one number. Scott tells him to quit it; we need matrices when jumping between spaces. Who&#39;s right?%%Umer - Everyone knows what the number one does%%Scott - We need to convert the quaternion into a matrix anyways%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 I love quaternions. They are cute little mathematical creatures that only have one job in life. They rotate! Compared to matrices that can do all sorts of things, it is nice to have a mathematical tool designed to do just one thing. It&#39;s like having the perfect screwdriver for the job at hand and not hammering nails with it.
 
 Scott loves scaring people by saying quaternions live on a four dimensional hypersphere. I have never found satisfaction pondering four dimensions, that part of my brain should just have the label &quot;Here be dragons&quot;. Maybe that&#39;s why so many people are terrified of quaternions? Turns out there is a different way to think about quaternions that I find much more appealing. What if quaternions are just lines? Lines that you rotate about. That&#39;s it! No foolhardy excursions to 4D land needed, we can rest our weary minds. 
@@ -2334,7 +1946,7 @@ The quaternion i is the line along the x-axis. It rotates things 180 degrees abo
 
 Hold on, that sounds like the quaternion k! Guess what, it is identical! Look at that, a quaternion pops out and all we had to do is think about mirrors, not the mind-bending 4th dimension. I prefer to go with mirrors every time!
 
-### ^^Code
+### ^^💻Code
 Here&#39;s Scott&#39;s Quaternion class:
 
 ```cpp
@@ -2466,23 +2078,23 @@ public:
 };
 ```
 
-### What&#39;s next?
+### ⏭️What&#39;s next?
 
-You can just use a quaternion to move into another space, but that&#39;s only if there is no [[Scale]] or [[Translation]] involved. If you want to do more than just rotate, convert your quaternion into a matrix and multiply with the other transformation matrices to make a [[Model Matrix]].</tw-passagedata><tw-passagedata pid="14" name="Projection Matrix" tags="Done" position="700,375" size="100,100">### Projection Matrix
+You can just use a quaternion to move into another space, but that&#39;s only if there is no [[Scale]] or [[Translation]] involved. If you want to do more than just rotate, convert your quaternion into a matrix and multiply with the other transformation matrices to make a [[Model Matrix]].</tw-passagedata><tw-passagedata pid="14" name="Projection Matrix" tags="Done" position="700,375" size="100,100">### ▶️Projection Matrix
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=fa3fcdcb-4832-41cc-a980-b45200ecc64f&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpaceProject_V13_ProjectionMatrix_exp4_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 The projection matrix sets up the volume of space that the camera can &quot;see&quot;. Any models outside the viewing frustum can be ignored (sorry Cassidy!). Once that pesky geometry is discarded, divide out the w component of the position vector to provide perspective and you are in normalized device coordinate space.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??The viewing frustum set up by the projection matrix is shaped like a:??Truncated pyramid (the chopped off apex being the camera position)??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%The projection matrix takes you from camera to clip space. Umer refuses to do a video on clip space because it&#39;s in four dimensions and that makes his head hurt. Scott says it&#39;s not a big deal, the fourth dimension is just at right angles to the other three. Who&#39;s right?%%Umer - Thinking of the fourth dimension makes my head spin %%Scott - Just take a slice of a 4D hypersphere, no biggie%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 
 The projection matrix is hard to describe succinctly as it does so many things. To demonstrate that, let&#39;s start with the matrices we&#39;ve already seen in this series. The translation matrix moves positions and requires a displacement. The rotation matrix rotates things and requires the axis and angle. The scale matrix makes things bigger or smaller and requires the scale factor along the three axes. Ok, so far so good. All those matrices could be explained in a single sentence each. Let&#39;s try the topic of this video. The perspective projection matrix defines regions of geometry to be discarded by the graphics card and provides a handle on perspective. The matrix requires the field of view angle along y, the aspect ratio of the rendered window, and the z locations of the near and far clipping planes. Wow, that got complicated fast! Let&#39;s go over it slowly.
 
@@ -2502,7 +2114,7 @@ So, there we go, the six boundary tests corresponding to the planes of the viewi
 
 Multiplying the vertices by the projection matrix takes us from camera space to clip space. I don&#39;t tend to think of clip space often, as it happens on the hardware without me noticing. We don&#39;t want to render any geometry outside our viewing frustum and that&#39;s efficiently done on the GPU by testing the vertices against their w values before the perspective divide operation. In OpenGL, a triangle is kept for rendering if all three corner positions have an x, y, and z value that are all larger or equal to -w and less than or equal to w. If a triangle has one or two vertices that fail this test, the triangle is &quot;clipped&quot; and new vertices are generated at the clip boundary. If all the vertices fail the test, the triangle is discarded from memory. It&#39;s a good rule in life to skip useless work, and that&#39;s exactly what the GPU does to speed up rendering beautiful art to screen.  
 
-### ^^Code
+### ^^💻Code
 Here is Scott&#39;s perspective projection matrix code:
 ```cpp
 static Matrix4 perspective(const float fovy_, const float aspect_, const float zNear_, const float zFar_) {
@@ -2535,31 +2147,31 @@ static Matrix4 orthographic(float xMin_, float xMax_, float yMin_, float yMax_, 
 }
 ```
 
-### What&#39;s next?
+### ⏭️What&#39;s next?
 The projection matrix only takes us halfway from [[Camera Space]] to [[NDC Space]]. We have to also apply the [[Perspective Divide]] to get us all the way there. 
 
-</tw-passagedata><tw-passagedata pid="15" name="Perspective Divide" tags="Done" position="700,675" size="100,100">### Perspective Divide
+</tw-passagedata><tw-passagedata pid="15" name="Perspective Divide" tags="Done" position="700,675" size="100,100">### ▶️Perspective Divide
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=6a2e3f92-83bd-4d3b-a2d1-b45200e037c1&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V14_PerspectiveDivide_exp4_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 We want objects closer to the camera to appear much larger than things far in the distance. The illusion of perspective is encoded in the w component of the vertex position vector after you have used the perspective projection matrix. Just divide it out.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??After using the perspective projection matrix, the w component is smallest near the:??Camera&#39;s front clipping plane??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Umer knows that the perspective divide actually happens after clip space, but he doesn&#39;t want to talk about it. Who&#39;s right?%%Umer - the w component is weird in clip space and hurts my brain%%GPU cards - Hey, that&#39;s where we clip things out of view for you! %%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 
 Do parallel lines ever meet? When you are driving along an empty and straight stretch of a highway, it looks like the sides of the road might meet if you could look far enough. In fact they do meet, just infinitely far away. That might seem like a non-starter, but the idea of a point infinitely far away is just the sort of thing used in geometric algebra. Instead of throwing your arms up and walking away when faced with infinity, it is handy to give it a name. In projective geometric algebra, the point infinitely far away along the x axis is called e032. It&#39;s the intersection two planes going through the origin (e3 faces z and e2 faces y) and the plane infinitely far away called e0. Sure, this sounds like useless jargon, but the math maps exactly with a direction vector pointing to the right (1, 0, 0, 0), even down to the detail of w = 0 for a direction. It brings to mind that that when you point to the right along the x-axis, it is conceptually the same as a point infinitely far away along x. It&#39;s also the reason you never do a perspective divide operation on a direction, as dividing x, y, z by w = 0 can&#39;t possibly convert a direction into a position in 3D space.
 
 The standard way to write down a position is with the w component equal to one. The perspective projection matrix changes that dramatically. It sets the w component to be the -z value and prepares the actual z component for what&#39;s coming up next. I know this sounds crazy, but it means w is large for objects far from the camera, and small for things up close. So when you divide all the vector components by w, you end up with x and y being much smaller for objects in the distance and bigger for close to the camera. The z component is constrained between the values -1 and 1 to fit the normalized device coordinate box, and w turns back into one. Conceptually it means a position with a large w value such as (1, 2, 3, 10) is the same as the scaled down position (0.1, 0.2, 0.3, 1). A position with a small w value such as (1, 2, 0.5, 0.5) is the same as the scaled up position (2, 4, 1, 1). If I write that out in a general way, the position (x * w, y * w, z * w, w) for any non-zero w value, is the same as the position (x, y, z, 1) in our familiar 3D space. It&#39;s all just a matter of perspective.
 
 
-### ^^Code
+### ^^💻Code
 Here is Scott&#39;s perspective divide code:
 ```cpp
 static Vec4 perspectiveDivide(const Vec4&amp; v) {
@@ -2570,22 +2182,22 @@ static Vec4 perspectiveDivide(const Vec4&amp; v) {
 }
 ```
 
-### What&#39;s next?
-With the w component of the [[Vertex Positions]] safely back to 1 after using the [[Projection Matrix]] in [[Camera Space]], we have arrived in [[NDC Space]].  </tw-passagedata><tw-passagedata pid="16" name="View Matrix" tags="Done" position="550,375" size="100,100">### View Matrix
+### ⏭️What&#39;s next?
+With the w component of the [[Vertex Positions]] safely back to 1 after using the [[Projection Matrix]] in [[Camera Space]], we have arrived in [[NDC Space]].  </tw-passagedata><tw-passagedata pid="16" name="View Matrix" tags="Done" position="550,375" size="100,100">### ▶️View Matrix
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=8c610e58-5141-4a7e-9f94-b4490155735f&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V11_View Matrix_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 Scott is not happy. Umer&#39;s pesky camera in world space is in the wrong place and looking along the wrong direction. Let&#39;s get the camera back at the origin looking down the -z axis using the view matrix.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 ??If your camera is looking to left, the view matrix moves the world:??Right??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%Scott is adamant that the camera is always at the origin looking down the -z axis. Umer likes to move his camera around. Who&#39;s right?%%Scott - The math is easier if you just translate and rotate the world instead%%Umer - The physics is easier if you stick in world space and have a camera position and orientation%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 Cameras are easy to overlook in games. When the camera behaves just as you expect, nobody notices them. It&#39;s as if they are invisible to the player until there is a problem. I remember being blown away when I first played Super Mario 64 in 1996 as it was the first Mario game set in 3D. The game is truly amazing and I don&#39;t remember being fussed about the camera back then. I played the game again recently, and the first thing I noticed was the camera! It&#39;s tricky to line up the perfect jump and there isn&#39;t as much freedom to move the camera where I want. I have been spoiled with the decades of iteration on camera systems since the 1990s. I even noticed the game has a character, Lakitu, flying on a cloud dangling a camera towards Mario in the opening cut-scene. It reminded me how new the concept of a 3D virtual camera was at the time as the makers of Super Mario 64 had given the players a reason for the camera pointing at Mario. Lakitu was in the in-game camera operator! It&#39;s funny to look at now as we just take it for granted that there is a camera looking into the game world.
 
 &lt;img src=&quot;images/V11_View_Matrix1.png&quot;  style=&quot;width:100%; max-width:100%;&quot;  /&gt;
@@ -2610,7 +2222,7 @@ An orbit camera is used often in third-person views, just like Lakitu floating a
 
 Next time you play a 3D game, try messing around with the camera system. What motions are allowed, can you toggle between views and how does the camera transition between cut-scenes and playable segments. Once you start noticing the camera you will appreciate all the work the game industry has done since the 1990s to make them feel invisible.
 
-### ^^Code
+### ^^💻Code
 Here&#39;s how Umer builds the view matrix based on the camera&#39;s position expressed as a 3D vector and the camera&#39;s orientation expressed as a quaternion:
 ```cpp
 Matrix4 inverseRotation = MMath::toMatrix4(QMath::conjugate(camOrientation));
@@ -2633,23 +2245,23 @@ camPosition += sphere-&gt;pos;
 // Then build the view matrix
 ```
 
-### What&#39;s next?
-The view matrix has taken us from [[World Space]] to [[Camera Space]]. </tw-passagedata><tw-passagedata pid="17" name="Viewport Matrix" tags="Done" position="875,375" size="100,100">### Viewport Matrix
+### ⏭️What&#39;s next?
+The view matrix has taken us from [[World Space]] to [[Camera Space]]. </tw-passagedata><tw-passagedata pid="17" name="Viewport Matrix" tags="Done" position="875,375" size="100,100">### ▶️Viewport Matrix
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=bce2247e-9c36-4e89-bdd7-b43c013e67c4&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V16_Viewport_Matrix_exp1_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 The viewport matrix stretches out the normalized device coordinate (NDC) cube so that it fits the screen&#39;s pixel resolution.
 
-### ^^Flashcards
+### ^^✔️Flashcards
 
 ??The viewport matrix stretches the normalized device coordinate box by this much along x:??Half the width of the screen in pixels??
 
-### ^^Who&#39;s right?
+### ^^⁉️Who&#39;s right?
 %%The OpenGL graphics library needs a viewport matrix that switches the positive y direction from up to down. The successor to OpenGL, called Vulkan, already has y pointing down in NDC space, so there is no need to flip it. Who&#39;s right?%%OpenGL - Having y pointing up makes sense in 3D until you get to the 2D screen%%Vulkan - The NDC box is so similar to pixel space you may as well have y pointing down in both%%
 
-### ^^Umer&#39;s ramblings
+### ^^🧑🏽‍🏫Umer&#39;s ramblings
 
 Our universe is expanding. Every galaxy outside of our local group is speeding away from us at an accelerated rate. In fact, every galaxy in the universe is in a similar predicament. It&#39;s like all the galaxies are dots on a balloon, and those dots all move away from each other as the balloon is inflated. The viewport matrix might not be as exciting as dark energy, but it does make the universe of our game dramatically bigger. 
 
@@ -2660,7 +2272,7 @@ The viewport matrix also does other things to match the conventions. In NDC spac
 The expansion of the NDC box stop at the screen&#39;s pixel resolution, but it&#39;s an open question on whether the universe itself will expand forever. Stay tuned!
 
 
-### ^^Code
+### ^^💻Code
 Here&#39;s Scott&#39;s viewport matrix:
 ```cpp
 static Matrix4 NDCtoViewport(int width_, int height_) {
@@ -2676,29 +2288,29 @@ static Matrix4 NDCtoViewport(int width_, int height_) {
 }
 ```
 
-### What&#39;s next?
+### ⏭️What&#39;s next?
 
-The viewport matrix takes us from [[NDC Space]] to the final stage of the rendering pipeline called [[Pixel Space]] or Screen space.</tw-passagedata><tw-passagedata pid="18" name="Bonus" tags="Done" position="925,700" size="100,100">### Bonus (part 1)
+The viewport matrix takes us from [[NDC Space]] to the final stage of the rendering pipeline called [[Pixel Space]] or Screen space.</tw-passagedata><tw-passagedata pid="18" name="Bonus" tags="Done" position="925,700" size="100,100">### ▶️Bonus (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=fb1a1e9d-a1fc-4a1e-a497-b451015c7b1d&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V18_Bonus_1_EXP2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Bonus (part 2)
+### ^^▶️Bonus (part 2)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=5d90974a-d568-498f-82ac-b451015c7b1b&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V18_Bonus_2_EXP2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Bonus (part 3)
+### ^^▶️Bonus (part 3)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=d8055dd4-56d1-47df-ac14-b451015c7b21&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V18_Bonus_3_EXP2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Bonus (part 4)
+### ^^▶️Bonus (part 4)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=0f297cbc-7211-4995-9519-b451015c7b1d&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V18_Bonus_4_EXP1_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### Too Long; Didn&#39;t Watch
+### 👀Too Long; Didn&#39;t Watch
 The past, the future, and our farewell *sniff, sniff*
 </tw-passagedata></tw-storydata>	
 	</body>
