@@ -783,8 +783,9 @@ $(document).ready(function() {
         results.querySelectorAll('.search-result-item').forEach(function(item) {
             item.addEventListener('click', function() {
                 var name = this.getAttribute('data-name');
+                var query = searchInput.value.trim();
                 closeSearch();
-                window.story.show(name);
+                navigateAndHighlight(name, query);
             });
         });
     }
@@ -795,6 +796,51 @@ $(document).ready(function() {
         document.querySelector('.top-nav-search').value = '';
         activeIdx = -1;
     }
+
+    function navigateAndHighlight(name, query) {
+        window._pendingSearchQuery = query;
+        window.story.show(name);
+    }
+
+    // After passage renders, scroll to and briefly highlight the matched text
+    function highlightSearchMatch(query) {
+        var passage = document.querySelector('tw-passage');
+        if (!passage || !query) return;
+        var lower = query.toLowerCase();
+        var walker = document.createTreeWalker(passage, NodeFilter.SHOW_TEXT, null, false);
+        var node;
+        while ((node = walker.nextNode())) {
+            // Skip text inside the nav bar (shouldn't be in tw-passage but be safe)
+            if (node.parentElement && node.parentElement.closest('#top-nav')) continue;
+            var idx = node.textContent.toLowerCase().indexOf(lower);
+            if (idx !== -1) {
+                try {
+                    var range = document.createRange();
+                    range.setStart(node, idx);
+                    range.setEnd(node, idx + query.length);
+                    var mark = document.createElement('mark');
+                    mark.style.cssText = 'background:#4cc9f0;color:#1a1a2e;border-radius:2px;padding:0 2px;';
+                    range.surroundContents(mark);
+                    mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(function() {
+                        if (mark.parentNode) {
+                            mark.parentNode.replaceChild(document.createTextNode(mark.textContent), mark);
+                            mark.parentNode && mark.parentNode.normalize();
+                        }
+                    }, 2500);
+                } catch(e) { /* range crosses element boundary — skip */ }
+                return;
+            }
+        }
+    }
+
+    $('tw-passage').on('sm.passage.shown', function() {
+        var query = window._pendingSearchQuery;
+        if (!query) return;
+        window._pendingSearchQuery = null;
+        // Wait for processPassageContent to finish rewriting innerHTML
+        setTimeout(function() { highlightSearchMatch(query); }, 200);
+    });
 
     var searchInput = document.querySelector('.top-nav-search');
 
@@ -814,8 +860,9 @@ $(document).ready(function() {
             activeIdx = Math.max(activeIdx - 1, 0);
         } else if (e.key === 'Enter' && activeIdx >= 0 && items[activeIdx]) {
             var name = items[activeIdx].getAttribute('data-name');
+            var query = searchInput.value.trim();
             closeSearch();
-            window.story.show(name);
+            navigateAndHighlight(name, query);
             return;
         } else if (e.key === 'Escape') {
             closeSearch();
