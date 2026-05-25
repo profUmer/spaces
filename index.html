@@ -628,9 +628,13 @@ function processPassageContent() {
     var headings = passage.querySelectorAll('h1, h2, h3, h4, h5, h6');
     for (var h = 0; h < headings.length; h++) {
         var heading = headings[h];
-        var text = heading.textContent;
-        if (text.indexOf('^^') !== 0) continue;
-        var titleLower = text.replace('^^', '').trim().toLowerCase();
+        if (heading.classList.contains('collapsible-heading')) continue;
+        var rawHtml = heading.innerHTML;
+        var text = heading.textContent.trim();
+        // Accept ^^ in either textContent (plain) or innerHTML (Marked.js may strip it to a tag)
+        var hasMarker = text.indexOf('^^') === 0 || rawHtml.indexOf('^^') !== -1;
+        if (!hasMarker) continue;
+        var titleLower = text.replace(/\^\^/g, '').trim().toLowerCase();
         // Match icon by heading text
         var iconFile = null;
         for (var ic = 0; ic < collapseIconMap.length; ic++) {
@@ -645,7 +649,7 @@ function processPassageContent() {
         }
         var iconHtml = iconFile ? '<img class="collapse-icon" src="images/' + iconFile + '" alt="" />' : '';
         // Order: [icon] [text] [arrow] — arrow gets margin-left:auto so it sits on the right
-        heading.innerHTML = iconHtml + heading.innerHTML.replace('^^', '') + '<span class="collapse-arrow">&#9654;</span>';
+        heading.innerHTML = iconHtml + heading.innerHTML.replace(/\^\^/g, '').replace(/<sup><\/sup>/g, '') + '<span class="collapse-arrow">&#9654;</span>';
         heading.classList.add('collapsible-heading');
         // Collect all siblings after this heading until the next heading or end
         var contentDiv = document.createElement('div');
@@ -659,7 +663,7 @@ function processPassageContent() {
         }
         heading.parentNode.insertBefore(contentDiv, heading.nextSibling);
         // Add inline click handler (survives innerHTML round-trips, same pattern as flashcards)
-        heading.setAttribute('onclick', "this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');");
+        heading.setAttribute('onclick', "this.classList.toggle('open'); var c=this.nextElementSibling; if(c) c.classList.toggle('open');");
     }
 
     // Step 5.7: Add icons to non-collapsible headings (video before iframe, what's next by text)
