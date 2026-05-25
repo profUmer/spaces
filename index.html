@@ -400,7 +400,9 @@ function processPassageContent() {
             for (var d = 0; d < options.length; d++) { defaultSeeds.push(3); }
             var seeds = surveySeedData[question] || defaultSeeds;
             var fbKey = surveyFirebaseKey(question);
-            var out = '<div class="survey" id="' + id + '" data-firebase-key="' + fbKey.replace(/"/g, '&quot;') + '" data-seeds="' + JSON.stringify(seeds) + '">';
+            var zeroFbCounts = [];
+            for (var z = 0; z < options.length; z++) { zeroFbCounts.push(0); }
+            var out = '<div class="survey" id="' + id + '" data-firebase-key="' + fbKey.replace(/"/g, '&quot;') + '" data-seeds="' + JSON.stringify(seeds) + '" data-firebase-counts="' + JSON.stringify(zeroFbCounts) + '">';
             out += '<div class="survey-question">' + question + '</div>';
             for (var i = 0; i < options.length; i++) {
                 out += '<button class="survey-option" data-index="' + i + '" onclick="castVote(this)">' +
