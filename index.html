@@ -636,14 +636,25 @@ function processPassageContent() {
         heading.setAttribute('onclick', "this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');");
     }
 
-    // Step 5.7: Add icon to non-collapsible "What's Next?" headings
+    // Step 5.7: Add icons to non-collapsible headings (video before iframe, what's next by text)
     var allHeadings = passage.querySelectorAll('h1, h2, h3, h4, h5, h6');
     for (var ah = 0; ah < allHeadings.length; ah++) {
         var aHeading = allHeadings[ah];
         if (aHeading.classList.contains('collapsible-heading')) continue;
-        if (aHeading.textContent.trim().toLowerCase().startsWith("what's next")) {
+        if (aHeading.querySelector('.collapse-icon')) continue; // already processed
+        var aIconFile = null;
+        var aSib = aHeading.nextSibling;
+        while (aSib) {
+            if (aSib.nodeType === 1 && /^H[1-6]$/.test(aSib.tagName)) break;
+            if (aSib.nodeType === 1 && aSib.querySelector && aSib.querySelector('iframe')) { aIconFile = 'icon_video.png'; break; }
+            aSib = aSib.nextSibling;
+        }
+        if (!aIconFile && aHeading.textContent.trim().toLowerCase().startsWith("what's next")) {
+            aIconFile = 'icon_whatsNext.png';
+        }
+        if (aIconFile) {
             aHeading.classList.add('icon-heading');
-            aHeading.innerHTML = '<img class="collapse-icon" src="images/icon_whatsNext.png" alt="" />' + aHeading.innerHTML;
+            aHeading.innerHTML = '<img class="collapse-icon" src="images/' + aIconFile + '" alt="" />' + aHeading.innerHTML;
         }
     }
 
