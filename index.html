@@ -279,8 +279,7 @@ pre {
     white-space: nowrap;
 }
 .top-nav-search {
-    flex: 1;
-    max-width: 360px;
+    width: 100%;
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.18);
     border-radius: 4px;
@@ -288,16 +287,41 @@ pre {
     color: white;
     font-size: 0.85em;
     outline: none;
+    box-sizing: border-box;
 }
 .top-nav-search::placeholder { color: rgba(255,255,255,0.4); }
-.top-nav-icons {
-    margin-left: auto;
-    display: flex;
-    gap: 14px;
-    align-items: center;
-    color: rgba(255,255,255,0.75);
-    font-size: 1.1em;
+.top-nav-search-wrap {
+    flex: 1;
+    max-width: 360px;
+    position: relative;
 }
+.top-nav-search-results {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #2e2e3e;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    max-height: 260px;
+    overflow-y: auto;
+    z-index: 300;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.top-nav-search-results.open { display: block; }
+.search-result-item {
+    padding: 9px 14px;
+    color: white;
+    font-size: 0.85em;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover, .search-result-item.active { background: rgba(255,255,255,0.12); }
+.search-result-item strong { color: #4cc9f0; }
+.search-result-snippet { font-size: 0.8em; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.search-no-results { padding: 9px 14px; color: rgba(255,255,255,0.45); font-size: 0.85em; font-style: italic; }
 
 /* ── What's Next? cards ──────────────────────────────────────────────────── */
 .whats-next-intro { color: #666; font-size: 0.88em; margin-bottom: 14px; }
@@ -681,15 +705,130 @@ function processPassageContent() {
 $('tw-passage').on('sm.passage.shown', processPassageContent);
 $(document).ready(processPassageContent);
 
-// Inject top nav bar
+// Inject top nav bar with live search
 $(document).ready(function() {
     var nav = document.createElement('div');
     nav.id = 'top-nav';
     nav.innerHTML =
         '<span class="top-nav-brand">Spaces Project</span>' +
-        '<input class="top-nav-search" type="text" placeholder="Search" />' +
-        '<div class="top-nav-icons">&#8962;&nbsp;&nbsp;&#9881;&nbsp;&nbsp;&#128100;</div>';
+        '<div class="top-nav-search-wrap">' +
+            '<input class="top-nav-search" type="text" placeholder="Search passages…" autocomplete="off" />' +
+            '<div class="top-nav-search-results" id="search-results"></div>' +
+        '</div>';
     document.body.insertBefore(nav, document.body.firstChild);
+
+    // Build search index from tw-passagedata elements
+    function buildIndex() {
+        var index = [];
+        document.querySelectorAll('tw-passagedata').forEach(function(p) {
+            var name = p.getAttribute('name') || '';
+            // Strip Twine markup (links, HTML entities) for plain-text snippet
+            var raw = p.textContent || '';
+            raw = raw.replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, '$1'); // [[link]] or [[text|target]]
+            raw = raw.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+            index.push({ name: name, text: raw });
+        });
+        return index;
+    }
+
+    var searchIndex = null;
+    var activeIdx = -1;
+
+    function highlight(str, query) {
+        var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        return str.replace(new RegExp('(' + escaped + ')', 'gi'), '<strong>$1</strong>');
+    }
+
+    function snippet(text, query, maxLen) {
+        maxLen = maxLen || 80;
+        var lower = text.toLowerCase();
+        var pos = lower.indexOf(query.toLowerCase());
+        var start = Math.max(0, pos - 30);
+        var chunk = text.substr(start, maxLen);
+        if (start > 0) chunk = '…' + chunk;
+        if (start + maxLen < text.length) chunk += '…';
+        return highlight(chunk, query);
+    }
+
+    function runSearch(query) {
+        if (!searchIndex) searchIndex = buildIndex();
+        var results = document.getElementById('search-results');
+        activeIdx = -1;
+        query = query.trim();
+        if (query.length < 2) {
+            results.innerHTML = '';
+            results.classList.remove('open');
+            return;
+        }
+        var lower = query.toLowerCase();
+        var matches = searchIndex.filter(function(p) {
+            return p.name.toLowerCase().indexOf(lower) !== -1 ||
+                   p.text.toLowerCase().indexOf(lower) !== -1;
+        });
+        if (matches.length === 0) {
+            results.innerHTML = '<div class="search-no-results">No passages found</div>';
+        } else {
+            results.innerHTML = matches.slice(0, 10).map(function(p, i) {
+                var titleHtml = highlight(p.name, query);
+                var snippetHtml = p.text.toLowerCase().indexOf(lower) !== -1
+                    ? '<div class="search-result-snippet">' + snippet(p.text, query) + '</div>'
+                    : '';
+                return '<div class="search-result-item" data-name="' + p.name.replace(/"/g, '&quot;') + '">' +
+                    titleHtml + snippetHtml + '</div>';
+            }).join('');
+        }
+        results.classList.add('open');
+
+        // Click handler for items
+        results.querySelectorAll('.search-result-item').forEach(function(item) {
+            item.addEventListener('click', function() {
+                var name = this.getAttribute('data-name');
+                closeSearch();
+                window.story.show(name);
+            });
+        });
+    }
+
+    function closeSearch() {
+        var results = document.getElementById('search-results');
+        results.classList.remove('open');
+        document.querySelector('.top-nav-search').value = '';
+        activeIdx = -1;
+    }
+
+    var searchInput = document.querySelector('.top-nav-search');
+
+    searchInput.addEventListener('input', function() {
+        runSearch(this.value);
+    });
+
+    // Keyboard navigation
+    searchInput.addEventListener('keydown', function(e) {
+        var results = document.getElementById('search-results');
+        var items = results.querySelectorAll('.search-result-item');
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeIdx = Math.min(activeIdx + 1, items.length - 1);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeIdx = Math.max(activeIdx - 1, 0);
+        } else if (e.key === 'Enter' && activeIdx >= 0 && items[activeIdx]) {
+            var name = items[activeIdx].getAttribute('data-name');
+            closeSearch();
+            window.story.show(name);
+            return;
+        } else if (e.key === 'Escape') {
+            closeSearch();
+            return;
+        }
+        items.forEach(function(item, i) { item.classList.toggle('active', i === activeIdx); });
+        if (items[activeIdx]) items[activeIdx].scrollIntoView({ block: 'nearest' });
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.top-nav-search-wrap')) closeSearch();
+    });
 });
 
 // Load Three.js from CDN
