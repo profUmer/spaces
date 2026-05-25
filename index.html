@@ -30,6 +30,13 @@ tw-story {
     -webkit-overflow-scrolling: touch !important;
     background: #f5f5f5 !important;
     color: #1a1a2e !important;
+    padding-top: 48px !important;
+    padding-right: 380px !important;
+    box-sizing: border-box !important;
+    transition: padding-right 0.3s ease;
+}
+tw-story.panel-collapsed {
+    padding-right: 28px !important;
 }
 tw-passage {
     min-height: auto !important;
@@ -178,27 +185,30 @@ pre code.hljs {
 
 /* Collapsible section styles */
 .collapsible-heading {
+    display: flex !important;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #e0e0e0;
     cursor: pointer;
     user-select: none;
+    font-weight: 500;
+    color: #1a1a2e;
+    margin: 0;
 }
-.collapsible-heading:hover {
-    color: #0077cc;
-}
+.collapsible-heading:hover { color: #0077cc; }
 .collapsible-heading .collapse-arrow {
+    margin-left: auto;
     display: inline-block;
     transition: transform 0.2s ease;
-    margin-right: 6px;
-    font-size: 0.7em;
+    font-size: 0.8em;
+    color: #888;
 }
-.collapsible-heading.open .collapse-arrow {
-    transform: rotate(90deg);
-}
+.collapsible-heading.open .collapse-arrow { transform: rotate(90deg); }
 .collapsible-content {
     display: none;
+    padding: 12px 0 4px;
 }
-.collapsible-content.open {
-    display: block;
-}
+.collapsible-content.open { display: block; }
 
 /* Mobile responsiveness */
 img {
@@ -236,6 +246,155 @@ pre {
         font-size: 0.82em;
     }
 }
+
+/* ── Top navigation bar ──────────────────────────────────────────────────── */
+#top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 380px;
+    height: 48px;
+    background: #3a3a4a;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+    z-index: 200;
+    box-sizing: border-box;
+    transition: right 0.3s ease;
+}
+#top-nav.panel-collapsed { right: 28px; }
+.top-nav-brand {
+    color: white;
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.top-nav-search {
+    flex: 1;
+    max-width: 360px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 4px;
+    padding: 6px 12px;
+    color: white;
+    font-size: 0.85em;
+    outline: none;
+}
+.top-nav-search::placeholder { color: rgba(255,255,255,0.4); }
+.top-nav-icons {
+    margin-left: auto;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    color: rgba(255,255,255,0.75);
+    font-size: 1.1em;
+}
+
+/* ── Right graph panel ───────────────────────────────────────────────────── */
+#graph-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: 100vh;
+    background: #1a1a2e;
+    z-index: 150;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+#graph-panel.collapsed { transform: translateX(calc(100% - 28px)); }
+#graph-panel-toggle {
+    position: absolute;
+    left: -28px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 60px;
+    background: #3a3a4a;
+    border-radius: 6px 0 0 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.8);
+    font-size: 1.1em;
+    user-select: none;
+    z-index: 1;
+}
+#graph-panel-header {
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.6);
+    font-size: 0.7em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+}
+#graph-panel-canvas { flex: 1; position: relative; overflow: hidden; }
+#graph-panel-hints {
+    padding: 6px 12px;
+    font-size: 0.7em;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    flex-shrink: 0;
+}
+/* Hide legacy in-passage graph elements */
+#passage-graph, #passage-graph-wrapper, #passage-graph-hints { display: none !important; }
+
+/* ── What's Next? cards ──────────────────────────────────────────────────── */
+.whats-next-intro { color: #666; font-size: 0.88em; margin-bottom: 14px; }
+.next-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+}
+.next-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 14px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.next-card-header { display: flex; align-items: center; gap: 10px; }
+.next-card-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #f72585;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.6em;
+    font-weight: 700;
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+.next-card-title { font-weight: 600; font-size: 0.88em; color: #1a1a2e; }
+.next-card-desc { font-size: 0.78em; color: #666; line-height: 1.4; flex: 1; }
+.next-card-btn {
+    display: inline-block;
+    padding: 5px 14px;
+    background: #f72585;
+    color: white !important;
+    border-radius: 4px;
+    font-size: 0.78em;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    align-self: flex-start;
+    margin-top: 4px;
+    text-decoration: none;
+}
+.next-card-btn:hover { background: #c91f72; }
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 // Survey seeded data keyed by question text
 var surveySeedData = {
@@ -416,6 +575,29 @@ function processPassageContent() {
         }
     );
 
+    // Step 3.3: Process What's Next? cards — lines starting with >>>Passage Name | Description
+    html = html.replace(
+        /(<p>&gt;&gt;&gt;[^<]+<\/p>\s*)+/g,
+        function(block) {
+            var cards = '';
+            block.replace(/<p>&gt;&gt;&gt;([^|<]+)\|([^<]+)<\/p>/g, function(m, name, desc) {
+                name = name.trim();
+                desc = desc.trim();
+                var initials = name.split(/\s+/).map(function(w) { return w.charAt(0); }).join('').substring(0, 2).toUpperCase();
+                cards += '<div class="next-card">' +
+                    '<div class="next-card-header">' +
+                        '<div class="next-card-dot">' + initials + '</div>' +
+                        '<div class="next-card-title">' + name + '</div>' +
+                    '</div>' +
+                    '<div class="next-card-desc">' + desc + '</div>' +
+                    '<button class="next-card-btn" onclick="window.story.show(\'' + name.replace(/'/g, "\\'") + '\')">Start</button>' +
+                '</div>';
+            });
+            return '<p class="whats-next-intro">Ready to learn more? Check out these suggested modules!</p>' +
+                '<div class="next-cards-grid">' + cards + '</div>';
+        }
+    );
+
     // Step 3.5: Process @@@ tabbed code groups
     // Syntax: @@@ filename on its own line before each code block, bare @@@ to close the group
     var tabGroupIndex = 0;
@@ -502,6 +684,47 @@ function processPassageContent() {
 }
 $('tw-passage').on('sm.passage.shown', processPassageContent);
 $(document).ready(processPassageContent);
+
+// Inject top nav bar and right graph panel
+$(document).ready(function() {
+    var nav = document.createElement('div');
+    nav.id = 'top-nav';
+    nav.innerHTML =
+        '<span class="top-nav-brand">Spaces Project</span>' +
+        '<input class="top-nav-search" type="text" placeholder="Search" />' +
+        '<div class="top-nav-icons">&#8962;&nbsp;&nbsp;&#9881;&nbsp;&nbsp;&#128100;</div>';
+    document.body.insertBefore(nav, document.body.firstChild);
+
+    var panel = document.createElement('div');
+    panel.id = 'graph-panel';
+    panel.innerHTML =
+        '<div id="graph-panel-toggle" onclick="toggleGraphPanel()">&#8250;</div>' +
+        '<div id="graph-panel-header">Passage Map</div>' +
+        '<div id="graph-panel-canvas"></div>' +
+        '<div id="graph-panel-hints">Click to navigate &middot; Drag to rotate &middot; Ctrl+scroll to zoom</div>';
+    document.body.appendChild(panel);
+});
+
+function toggleGraphPanel() {
+    var panel = document.getElementById('graph-panel');
+    var nav = document.getElementById('top-nav');
+    var story = document.querySelector('tw-story');
+    var toggle = document.getElementById('graph-panel-toggle');
+    var collapsed = panel.classList.toggle('collapsed');
+    if (nav) nav.classList.toggle('panel-collapsed', collapsed);
+    if (story) story.classList.toggle('panel-collapsed', collapsed);
+    toggle.innerHTML = collapsed ? '&#8249;' : '&#8250;';
+    if (!collapsed) {
+        setTimeout(function() {
+            if (persistentRenderer) {
+                var c = document.getElementById('graph-panel-canvas');
+                var w = c.clientWidth, h = c.clientHeight || (window.innerHeight - 96);
+                persistentRenderer.setSize(w, h);
+                if (persistentCamera) { persistentCamera.aspect = w / h; persistentCamera.updateProjectionMatrix(); }
+            }
+        }, 320);
+    }
+}
 
 // Load Three.js from CDN
 (function() {
@@ -640,82 +863,16 @@ let persistentCurrentPassage = null;
 let persistentLabelSprites = null;
 
 function addMapToCurrentPassage() {
-    const passage = document.querySelector("tw-passage");
-    if (!passage) return;
-
-    // Check if container already exists in this passage (either wrapper or direct container)
-    let existingContainer = passage.querySelector("#passage-graph");
-    if (existingContainer) {
-        // Add hints if not already present
-        if (!passage.querySelector("#passage-graph-hints")) {
-            const hints = document.createElement("p");
-            hints.id = "passage-graph-hints";
-            hints.style.cssText = "font-size: 0.85em; color: #888; margin: 8px 0 0 0;";
-            hints.textContent = "Click to navigate · Drag to rotate · Right-drag to pan · Ctrl+scroll to zoom";
-            existingContainer.after(hints);
-        }
-        // Container exists - use it or update arrow
-        if (!persistentMapCreated) {
-            existingContainer.style.height = (existingContainer.clientWidth * getCanvasAspectRatio()) + "px";
-            existingContainer.style.paddingBottom = "0";
-            createVisualization(existingContainer);
-            persistentMapCreated = true;
-        } else if (persistentRenderer && !existingContainer.contains(persistentRenderer.domElement)) {
-            existingContainer.style.height = (existingContainer.clientWidth * getCanvasAspectRatio()) + "px";
-            existingContainer.style.paddingBottom = "0";
-            existingContainer.appendChild(persistentRenderer.domElement);
-            const width = existingContainer.clientWidth || 800;
-            const height = width * getCanvasAspectRatio();
-            persistentRenderer.setSize(width, height);
-            if (persistentCamera) {
-                persistentCamera.aspect = width / height;
-                persistentCamera.updateProjectionMatrix();
-            }
-        }
-        updateArrowPosition();
+    var panelCanvas = document.getElementById('graph-panel-canvas');
+    if (!panelCanvas) {
+        setTimeout(addMapToCurrentPassage, 100);
         return;
     }
-
-    // Create wrapper with header
-    const wrapper = document.createElement("div");
-    wrapper.id = "passage-graph-wrapper";
-    wrapper.innerHTML = "<h3>I'm lost. Can I see the big picture again?</h3>";
-
-    const container = document.createElement("div");
-    container.id = "passage-graph";
-    container.style.cssText = "position: relative; width: 100%; height: 0; padding-bottom: 56.25%";
-
-    const hints = document.createElement("p");
-    hints.id = "passage-graph-hints";
-    hints.style.cssText = "font-size: 0.85em; color: #888; margin: 8px 0 0 0;";
-    hints.textContent = "Click to navigate · Drag to rotate · Right-drag to pan · Ctrl+scroll to zoom";
-
-    wrapper.appendChild(container);
-    wrapper.appendChild(hints);
-    passage.appendChild(wrapper);
-
-    // Create or move visualization
     if (!persistentMapCreated) {
-        createVisualization(container);
+        createVisualization(panelCanvas);
         persistentMapCreated = true;
-    } else {
-        // Move existing canvas to new container
-        if (persistentRenderer) {
-            container.style.height = (container.clientWidth * getCanvasAspectRatio()) + "px";
-            container.style.paddingBottom = "0";
-            container.appendChild(persistentRenderer.domElement);
-            updateArrowPosition();
-
-            // Update renderer size
-            const width = container.clientWidth || 800;
-            const height = width * getCanvasAspectRatio();
-            persistentRenderer.setSize(width, height);
-            if (persistentCamera) {
-                persistentCamera.aspect = width / height;
-                persistentCamera.updateProjectionMatrix();
-            }
-        }
     }
+    updateArrowPosition();
 }
 
 function updateArrowPosition() {
@@ -772,10 +929,8 @@ function createVisualization(container) {
     const { passages, links, startNodeName } = visualizationData;
 
     // Setup Three.js
-    const width = container.clientWidth || 800;
-    const height = width * getCanvasAspectRatio();
-    container.style.height = height + "px";
-    container.style.paddingBottom = "0";
+    const width = container.clientWidth || 380;
+    const height = container.clientHeight || (window.innerHeight - 96);
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x1a1a2e);
@@ -810,11 +965,7 @@ function createVisualization(container) {
             const newDistance = Math.max(100, Math.min(1500, currentDistance * (1 + event.deltaY * zoomSpeed)));
             camera.position.copy(controls.target).addScaledVector(direction, newDistance);
         } else {
-            // Manually scroll the tw-story container (for itch.io fullscreen mode)
-            const twStory = document.querySelector('tw-story');
-            if (twStory) {
-                twStory.scrollTop += event.deltaY;
-            }
+            // Non-ctrl scroll over panel — do nothing, panel doesn't scroll
         }
     }, { capture: true, passive: false });
 
@@ -982,12 +1133,11 @@ function createVisualization(container) {
 
     // Resize handler
     window.addEventListener("resize", function() {
-        const newWidth = container.clientWidth || 800;
-        const newHeight = newWidth * getCanvasAspectRatio();
-        container.style.height = newHeight + "px";
-        camera.aspect = newWidth / newHeight;
+        const w = container.clientWidth || 380;
+        const h = container.clientHeight || (window.innerHeight - 96);
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        renderer.setSize(newWidth, newHeight);
     });
 
     // Create arrow indicator
