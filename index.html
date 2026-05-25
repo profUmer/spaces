@@ -247,13 +247,7 @@ function castVote(btn) {
     var index = parseInt(btn.getAttribute('data-index'));
     var seeds = JSON.parse(survey.getAttribute('data-seeds'));
     var fbCounts = JSON.parse(survey.getAttribute('data-firebase-counts') || 'null');
-    var numOptions = survey.querySelectorAll('.survey-option').length;
-    var displayCounts = seeds.slice();
-    if (fbCounts) {
-        for (var i = 0; i < numOptions; i++) {
-            displayCounts[i] = seeds[i] + fbCounts[i];
-        }
-    }
+    var displayCounts = fbCounts ? fbCounts.slice() : seeds.slice();
     displayCounts[index] += 1;
     showResults(survey, index, displayCounts);
     if (firebaseDb) {
