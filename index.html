@@ -198,6 +198,10 @@ pre code.hljs {
     flex-shrink: 0;
     opacity: 0.75;
 }
+.icon-heading {
+    display: flex;
+    align-items: center;
+}
 .collapsible-heading .collapse-arrow {
     margin-left: auto;
     display: inline-block;
@@ -589,7 +593,6 @@ function processPassageContent() {
 
     // Step 5.6: Process collapsible sections (headings starting with ^^)
     var collapseIconMap = [
-        { match: 'video',       file: 'icon_video.png' },
         { match: 'code',        file: 'icon_code.png' },
         { match: 'flashcard',   file: 'icon_flashcards.png' },
         { match: 'umer',        file: 'icon_umersRamblings.png' },
@@ -602,9 +605,17 @@ function processPassageContent() {
         var text = heading.textContent;
         if (text.indexOf('^^') !== 0) continue;
         var titleLower = text.replace('^^', '').trim().toLowerCase();
+        // Match icon by heading text
         var iconFile = null;
         for (var ic = 0; ic < collapseIconMap.length; ic++) {
             if (titleLower.startsWith(collapseIconMap[ic].match)) { iconFile = collapseIconMap[ic].file; break; }
+        }
+        // Override with video icon if the content after this heading contains an iframe
+        var peekSib = heading.nextSibling;
+        while (peekSib) {
+            if (peekSib.nodeType === 1 && /^H[1-6]$/.test(peekSib.tagName)) break;
+            if (peekSib.nodeType === 1 && peekSib.querySelector && peekSib.querySelector('iframe')) { iconFile = 'icon_video.png'; break; }
+            peekSib = peekSib.nextSibling;
         }
         var iconHtml = iconFile ? '<img class="collapse-icon" src="images/' + iconFile + '" alt="" />' : '';
         // Order: [icon] [text] [arrow] — arrow gets margin-left:auto so it sits on the right
@@ -623,6 +634,17 @@ function processPassageContent() {
         heading.parentNode.insertBefore(contentDiv, heading.nextSibling);
         // Add inline click handler (survives innerHTML round-trips, same pattern as flashcards)
         heading.setAttribute('onclick', "this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');");
+    }
+
+    // Step 5.7: Add icon to non-collapsible "What's Next?" headings
+    var allHeadings = passage.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    for (var ah = 0; ah < allHeadings.length; ah++) {
+        var aHeading = allHeadings[ah];
+        if (aHeading.classList.contains('collapsible-heading')) continue;
+        if (aHeading.textContent.trim().toLowerCase().startsWith("what's next")) {
+            aHeading.classList.add('icon-heading');
+            aHeading.innerHTML = '<img class="collapse-icon" src="images/icon_whatsNext.png" alt="" />' + aHeading.innerHTML;
+        }
     }
 
     // Step 6: Syntax-highlight code blocks with hljs (if loaded)
