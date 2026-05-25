@@ -810,27 +810,53 @@ $(document).ready(function() {
         var walker = document.createTreeWalker(passage, NodeFilter.SHOW_TEXT, null, false);
         var node;
         while ((node = walker.nextNode())) {
-            // Skip text inside the nav bar (shouldn't be in tw-passage but be safe)
-            if (node.parentElement && node.parentElement.closest('#top-nav')) continue;
             var idx = node.textContent.toLowerCase().indexOf(lower);
-            if (idx !== -1) {
-                try {
-                    var range = document.createRange();
-                    range.setStart(node, idx);
-                    range.setEnd(node, idx + query.length);
-                    var mark = document.createElement('mark');
-                    mark.style.cssText = 'background:#4cc9f0;color:#1a1a2e;border-radius:2px;padding:0 2px;';
-                    range.surroundContents(mark);
-                    mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    setTimeout(function() {
-                        if (mark.parentNode) {
-                            mark.parentNode.replaceChild(document.createTextNode(mark.textContent), mark);
-                            mark.parentNode && mark.parentNode.normalize();
-                        }
-                    }, 2500);
-                } catch(e) { /* range crosses element boundary — skip */ }
-                return;
+            if (idx === -1) continue;
+
+            var el = node.parentElement;
+
+            // If matched text is inside (or is) a collapsible heading — open the section
+            var matchedHeading = el ? el.closest('.collapsible-heading') : null;
+            if (matchedHeading) {
+                matchedHeading.classList.add('open');
+                var nextEl = matchedHeading.nextElementSibling;
+                if (nextEl && nextEl.classList.contains('collapsible-content')) {
+                    nextEl.classList.add('open');
+                }
             }
+
+            // If matched text is inside a (hidden) collapsible body — open it
+            var matchedContent = el ? el.closest('.collapsible-content') : null;
+            if (matchedContent) {
+                matchedContent.classList.add('open');
+                var prevEl = matchedContent.previousElementSibling;
+                if (prevEl && prevEl.classList.contains('collapsible-heading')) {
+                    prevEl.classList.add('open');
+                }
+            }
+
+            // Wrap the matched text in a highlight mark and scroll to it
+            try {
+                var range = document.createRange();
+                range.setStart(node, idx);
+                range.setEnd(node, idx + query.length);
+                var mark = document.createElement('mark');
+                mark.style.cssText = 'background:#4cc9f0;color:#1a1a2e;border-radius:2px;padding:0 2px;';
+                range.surroundContents(mark);
+                // Scroll the mark's element into view within tw-story (the scrollable container)
+                mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(function() {
+                    if (mark.parentNode) {
+                        mark.parentNode.replaceChild(document.createTextNode(mark.textContent), mark);
+                        mark.parentNode && mark.parentNode.normalize();
+                    }
+                }, 2500);
+            } catch(e) {
+                // range.surroundContents crossed an element boundary — just scroll to the parent element
+                var target = matchedHeading || matchedContent || el;
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
         }
     }
 
