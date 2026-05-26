@@ -327,7 +327,24 @@ function fetchSurveyCounts() {
     hljsScript.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";
     hljsScript.onload = function() {
         hljs.configure({ ignoreUnescapedHTML: true });
-        processPassageContent();
+        // Only highlight existing code blocks — do NOT re-run full processPassageContent,
+        // as that resets passage.innerHTML and destroys already-created collapsible structure.
+        var passage = document.querySelector('tw-passage');
+        if (!passage) return;
+        var blocks = passage.querySelectorAll('pre code');
+        for (var i = 0; i < blocks.length; i++) {
+            hljs.highlightElement(blocks[i]);
+            var blockHtml = blocks[i].innerHTML;
+            for (var c = 0; c < customClassNames.length; c++) {
+                var re = new RegExp('\\b(' + customClassNames[c] + ')\\b', 'g');
+                blockHtml = highlightOutsideComments(blockHtml, re, '<span class="hljs-custom-class">$1</span>');
+            }
+            for (var m = 0; m < customMethodNames.length; m++) {
+                var re = new RegExp('\\b(' + customMethodNames[m] + ')\\b', 'g');
+                blockHtml = highlightOutsideComments(blockHtml, re, '<span class="hljs-custom-method">$1</span>');
+            }
+            blocks[i].innerHTML = blockHtml;
+        }
     };
     document.head.appendChild(hljsScript);
 })();
@@ -361,6 +378,7 @@ function showCodeTab(btn, index) {
 function processPassageContent() {
     var passage = document.querySelector('tw-passage');
     if (!passage) return;
+
     var html = passage.innerHTML;
 
     // Step 1: Extract <pre>...</pre> blocks so ?? and %% regex can't touch them
@@ -450,35 +468,41 @@ function processPassageContent() {
         html = html.replace('<!--CODE_BLOCK_' + b + '-->', codeBlocks[b]);
     }
 
+    // Step 4.5: Process collapsible sections in the HTML string (headings starting with ^^).
+    // Done as string manipulation before innerHTML is set to avoid any DOM-timing race conditions.
+    // Idempotent: after first pass ^^ is stripped, so re-runs are harmless.
+    (function() {
+        var result = '';
+        var remaining = html;
+        var collapsibleHeadingRe = /<(h[1-6])>(\^\^[\s\S]*?)<\/\1>/;
+        var nextHeadingRe = /<h[1-6][\s>]/;
+        while (remaining.length > 0) {
+            var match = collapsibleHeadingRe.exec(remaining);
+            if (!match) { result += remaining; break; }
+            result += remaining.substring(0, match.index);
+            var tag = match[1];
+            var innerText = match[2].replace('^^', '');
+            var onclick = "this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');";
+            result += '<' + tag + ' class="collapsible-heading" onclick="' + onclick + '">' +
+                      '<span class="collapse-arrow">&#9654;</span>' + innerText + '</' + tag + '>';
+            var afterHeading = remaining.substring(match.index + match[0].length);
+            var nextMatch = nextHeadingRe.exec(afterHeading);
+            if (nextMatch) {
+                result += '<div class="collapsible-content">' + afterHeading.substring(0, nextMatch.index) + '</div>';
+                remaining = afterHeading.substring(nextMatch.index);
+            } else {
+                result += '<div class="collapsible-content">' + afterHeading + '</div>';
+                remaining = '';
+            }
+        }
+        html = result;
+    })();
+
     // Step 5: Set innerHTML once
     passage.innerHTML = html;
 
     // Step 5.5: Fetch real vote counts from Firebase for surveys on this passage
     fetchSurveyCounts();
-
-    // Step 5.6: Process collapsible sections (headings starting with ^^)
-    var headings = passage.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    for (var h = 0; h < headings.length; h++) {
-        var heading = headings[h];
-        var text = heading.textContent;
-        if (text.indexOf('^^') !== 0) continue;
-        // Strip the ^^ marker from the heading text
-        heading.innerHTML = '<span class="collapse-arrow">&#9654;</span>' + heading.innerHTML.replace('^^', '');
-        heading.classList.add('collapsible-heading');
-        // Collect all siblings after this heading until the next heading or end
-        var contentDiv = document.createElement('div');
-        contentDiv.className = 'collapsible-content';
-        var sibling = heading.nextSibling;
-        while (sibling) {
-            var next = sibling.nextSibling;
-            if (sibling.nodeType === 1 && /^H[1-6]$/.test(sibling.tagName)) break;
-            contentDiv.appendChild(sibling);
-            sibling = next;
-        }
-        heading.parentNode.insertBefore(contentDiv, heading.nextSibling);
-        // Add inline click handler (survives innerHTML round-trips, same pattern as flashcards)
-        heading.setAttribute('onclick', "this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');");
-    }
 
     // Step 6: Syntax-highlight code blocks with hljs (if loaded)
     if (window.hljs) {
