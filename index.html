@@ -282,7 +282,12 @@ var FIREBASE_CONFIG = {
 var firebaseDb = null;
 
 function surveyFirebaseKey(question) {
-    return question.replace(/[.#$\[\]\/]/g, '_').substring(0, 200);
+    return question
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/[.#$\[\]\/\r\n\t]/g, '_')
+        .replace(/ {2,}/g, ' ')
+        .trim()
+        .substring(0, 200);
 }
 
 function fetchSurveyCounts() {
@@ -406,7 +411,7 @@ function processPassageContent() {
         function(match, inner) {
             var parts = inner.split('%%');
             if (parts.length < 3) return match;
-            var question = parts[0].trim();
+            var question = parts[0].replace(/<\/?p>/gi, ' ').replace(/ {2,}/g, ' ').trim();
             var options = [];
             for (var p = 1; p < parts.length; p++) {
                 options.push(parts[p].trim());
