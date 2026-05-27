@@ -200,6 +200,73 @@ pre code.hljs {
     display: block;
 }
 
+/* Search bar */
+#passage-search {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: #f5f5f5;
+    padding: 8px 16px;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+}
+#passage-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 14px;
+    font-size: 1em;
+    font-family: inherit;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    background: #fff;
+    color: #1a1a2e;
+}
+#passage-search-input:focus {
+    border-color: #0077cc;
+    box-shadow: 0 0 0 2px rgba(0,119,204,0.15);
+}
+#passage-search-results {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    z-index: 201;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+#passage-search-results.visible {
+    display: block;
+}
+.search-result-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.95em;
+    line-height: 1.3;
+}
+.search-result-item:last-child {
+    border-bottom: none;
+}
+.search-result-item:hover {
+    background: #eaf6fd;
+}
+.search-result-label {
+    font-weight: 600;
+    color: #1a1a2e;
+}
+.search-result-sub {
+    font-size: 0.8em;
+    color: #666;
+    margin-left: 6px;
+    font-weight: normal;
+}
+
 /* Mobile responsiveness */
 img {
     max-width: 100%;
@@ -529,6 +596,126 @@ function processPassageContent() {
 }
 $('tw-passage').on('sm.passage.shown', processPassageContent);
 $(document).ready(processPassageContent);
+$('tw-passage').on('sm.passage.shown', function() {
+    var twStory = document.querySelector('tw-story');
+    if (twStory) twStory.scrollTop = 0;
+});
+
+// ── Passage / video search ────────────────────────────────────────────────────
+(function() {
+    var searchIndex = null;
+    var currentHits = [];
+
+    function buildIndex() {
+        var items = [];
+        document.querySelectorAll('tw-passagedata').forEach(function(pd) {
+            var name = pd.getAttribute('name');
+            items.push({ label: name, passage: name, section: null });
+            pd.textContent.split('\n').forEach(function(line) {
+                var m = line.match(/^#+\s*(?:\^+\s*)?(.+)$/);
+                if (!m) return;
+                var raw = m[1].trim();
+                if (!raw.includes('▶️')) return; // only ▶️ headings (video sections)
+                var title = raw.replace('▶️', '').trim();
+                if (title === name) return; // skip if identical to passage name
+                items.push({ label: title, passage: name, section: title });
+            });
+        });
+        return items;
+    }
+
+    function findHeading(title) {
+        var hs = document.querySelectorAll('tw-passage h1,tw-passage h2,tw-passage h3,tw-passage h4,tw-passage h5,tw-passage h6');
+        for (var i = 0; i < hs.length; i++) {
+            // Strip collapse arrow (▶ U+25B6) and ▶️ emoji variant, then compare
+            var text = hs[i].textContent.replace(/▶️?/g, '').trim();
+            if (text === title) return hs[i];
+        }
+        return null;
+    }
+
+    function scrollToHeading(title) {
+        var heading = findHeading(title);
+        if (!heading) return;
+        if (heading.classList.contains('collapsible-heading') && !heading.classList.contains('open')) {
+            heading.classList.add('open');
+            var content = heading.nextElementSibling;
+            if (content) content.classList.add('open');
+        }
+        var twStory = document.querySelector('tw-story');
+        if (twStory) {
+            var hRect = heading.getBoundingClientRect();
+            var sRect = twStory.getBoundingClientRect();
+            twStory.scrollTop += hRect.top - sRect.top - 60;
+        }
+    }
+
+    function navigate(item) {
+        if (item.section) {
+            $('tw-passage').one('sm.passage.shown', function() {
+                setTimeout(function() { scrollToHeading(item.section); }, 100);
+            });
+        }
+        if (window.story && window.story.show) {
+            window.story.show(item.passage);
+        }
+    }
+
+    function render(query) {
+        var results = document.getElementById('passage-search-results');
+        if (!query) { results.classList.remove('visible'); return; }
+        var q = query.toLowerCase();
+        currentHits = searchIndex.filter(function(it) {
+            return it.label.toLowerCase().includes(q) || it.passage.toLowerCase().includes(q);
+        });
+        if (!currentHits.length) { results.classList.remove('visible'); return; }
+        results.innerHTML = currentHits.map(function(it, idx) {
+            return '<div class="search-result-item" data-idx="' + idx + '">' +
+                '<span class="search-result-label">' + it.label + '</span>' +
+                (it.section ? '<span class="search-result-sub">in ' + it.passage + '</span>' : '') +
+                '</div>';
+        }).join('');
+        results.classList.add('visible');
+    }
+
+    $(document).ready(function() {
+        // Inject search bar HTML before tw-passage (survives Twine re-exports)
+        if (!document.getElementById('passage-search')) {
+            var bar = document.createElement('div');
+            bar.id = 'passage-search';
+            bar.innerHTML = '<input id="passage-search-input" type="text" placeholder="Search…" autocomplete="off" spellcheck="false" />' +
+                            '<div id="passage-search-results"></div>';
+            var twPassage = document.querySelector('tw-passage');
+            if (twPassage) twPassage.parentNode.insertBefore(bar, twPassage);
+        }
+
+        searchIndex = buildIndex();
+
+        var input = document.getElementById('passage-search-input');
+        var results = document.getElementById('passage-search-results');
+        if (!input || !results) return;
+
+        input.addEventListener('input', function() { render(input.value.trim()); });
+
+        results.addEventListener('click', function(e) {
+            var el = e.target.closest('.search-result-item');
+            if (!el) return;
+            var item = currentHits[parseInt(el.getAttribute('data-idx'))];
+            if (!item) return;
+            results.classList.remove('visible');
+            input.value = '';
+            navigate(item);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#passage-search')) results.classList.remove('visible');
+        });
+
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { results.classList.remove('visible'); input.blur(); }
+        });
+    });
+})();
 
 // Load Three.js from CDN
 (function() {
@@ -631,26 +818,11 @@ function parsePassageData() {
         }
     });
 
-    // BFS for z-depth
     const startName = document.querySelector("tw-storydata").getAttribute("startnode");
     const startPassage = document.querySelector("tw-passagedata[pid='" + startName + "']");
     const startNodeName = startPassage ? startPassage.getAttribute("name") : Object.keys(passages)[0];
 
-    const visited = new Set();
-    const queue = [[startNodeName, 0]];
-    visited.add(startNodeName);
-
-    while (queue.length > 0) {
-        const [current, depth] = queue.shift();
-        if (passages[current]) passages[current].z = depth;
-
-        links.filter(l => l.from === current).forEach(link => {
-            if (passages[link.to] && !visited.has(link.to)) {
-                visited.add(link.to);
-                queue.push([link.to, depth + 1]);
-            }
-        });
-    }
+    // All nodes share z=0 — flat layout.
 
     return { passages, links, startNodeName };
 }
@@ -809,7 +981,7 @@ function createVisualization(container) {
     persistentScene = scene;
 
     const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 2000);
-    camera.position.set(0, 0, 500);
+    camera.position.set(0, 0, 550);
     persistentCamera = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -864,12 +1036,13 @@ function createVisualization(container) {
     // Create nodes
     const sphereGeom = new THREE.SphereGeometry(20, 32, 32);
     const mainNodes = new Set(["Model Space", "World Space", "Camera Space", "NDC Space", "Pixel Space"]);
+    const introNodes = new Set(["Intro To Spaces", "About", "Bonus"]);
     let currentPassageName = null;
     let arrowGroup = null;
     let arrowTime = 0;
 
     Object.values(passages).forEach((p, i) => {
-        const nodeColor = mainNodes.has(p.name) ? 0xff69b4 : 0x4488ff;
+        const nodeColor = introNodes.has(p.name) ? 0x2ecc71 : mainNodes.has(p.name) ? 0xff69b4 : 0x4488ff;
         const material = new THREE.MeshBasicMaterial({ color: nodeColor });
         const sphere = new THREE.Mesh(sphereGeom, material);
         sphere.position.set(p.x - centerX, -(p.y - centerY), -p.z * 80);
@@ -1138,13 +1311,13 @@ function createVisualization(container) {
     // Highlight current passage - get name from passage element
     highlightCurrentPassage();
 }
-</script><tw-tag name="Done" color="orange"></tw-tag><tw-passagedata pid="1" name="Intro to spaces" tags="Done" position="300,300" size="100,100">### ▶️Intro to spaces
+</script><tw-tag name="Done" color="orange"></tw-tag><tw-passagedata pid="1" name="Intro To Spaces" tags="Done" position="300,300" size="100,100">### ▶️Intro To Spaces
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=1b332e4e-6754-416e-8f9e-b4520124a0a5&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=false&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SPACESProj_V01_Introduction_exp9_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
 ### 👀Too Long; Didn&#39;t Watch (TLDW):
-This video series steps through all the spaces and math needed to get your artist&#39;s model onto the screen.
+This video series steps through all the spaces and math needed to get your artist&#39;s model onto the screen. Want to know more, click on [[About]]. 
 
 ### ^^✔️Flashcards
 ??The space between model space and camera space is called:??World Space??
@@ -1623,7 +1796,7 @@ static Matrix4 scale(const Vec3&amp; scale) {
 }
 ```
 ### ⏭️What&#39;s next?
-Combine your scale with a [[Rotation]] and a [[Translation]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="8" name="Translation" tags="Done" position="50,450" size="100,100">### ▶️Translation
+Combine your scale with a [[Rotations]] and a [[Translation]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="8" name="Translation" tags="Done" position="50,450" size="100,100">### ▶️Translation
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=39e0ee1e-9754-4aa9-8cd3-b43b00ef665d&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V06_Translations_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -1675,7 +1848,7 @@ Matrix4 T_inverse = MMath::inverse(T);
 Vec4 originalVertexPos = T_inverse * newVertexPos;
 ```
 ### ⏭️What&#39;s next?
-Combine your translation with a [[Rotation]] and a [[Scale]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="9" name="Rotation" tags="Done" position="175,550" size="100,100">### ▶️Rotations (part 1)
+Combine your translation with a [[Rotations]] and a [[Scale]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="9" name="Rotations" tags="Done" position="175,550" size="100,100">### ▶️Rotations (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=a8f6b427-ffeb-491a-b88d-b4480115ea53&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V07_Rotation_1_exp1_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -1784,7 +1957,7 @@ static Matrix3 toMatrix3(const Quaternion&amp; q) {
 ```
 
 ### ⏭️What&#39;s next?
-Ever since the game Tomb Raider, developers have leaned towards [[quaternions-&gt;Quaternion]] to represent 3D rotations in game engines. Let&#39;s dig into them further (yes, this is Umer&#39;s decision!).</tw-passagedata><tw-passagedata pid="10" name="Model Matrix" tags="Done" position="400,375" size="100,100">### ▶️Model Matrix
+Ever since the game Tomb Raider, developers have leaned towards [[quaternions-&gt;Quaternions]] to represent 3D rotations in game engines. Let&#39;s dig into them further (yes, this is Umer&#39;s decision!).</tw-passagedata><tw-passagedata pid="10" name="Model Matrix" tags="Done" position="400,375" size="100,100">### ▶️Model Matrix
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=77f8c7e8-03ef-4720-81e8-b4410106fc59&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V09_ModelMatrix_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -1821,7 +1994,7 @@ Matrix4 Body::GetModelMatrix() const {
 ```
 
 ### ⏭️What&#39;s next?
-Now that you have combined [[Scale]], [[Rotation]], and [[Translation]] into one matrix, you can transform the [[Vertex Positions]] and [[Normals]] from [[Model Space]] to [[World Space]]. </tw-passagedata><tw-passagedata pid="11" name="Vertex Positions" tags="Done" position="250,675" size="100,100">### ▶️Vertex Positions (part 1)
+Now that you have combined [[Scale]], [[Rotations]], and [[Translation]] into one matrix, you can transform the [[Vertex Positions]] and [[Normals]] from [[Model Space]] to [[World Space]]. </tw-passagedata><tw-passagedata pid="11" name="Vertex Positions" tags="Done" position="250,675" size="100,100">### ▶️Vertex Positions (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=dccf68e7-95f8-40ee-a0ea-b45200e53ebd&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V03_VertexPositions_1_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -1860,7 +2033,7 @@ Vec4 vertexPos = Vec4(vertex.x, vertex.y, vertex.z, 1.0f);
 Vec4 vertexPosWorldSpace = modelMatrix * vertexPos;
 ```
 ### ⏭️What&#39;s next?
-Armed with your vertex positions and [[Normals]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotation]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="12" name="Normals" tags="Done" position="450,650" size="100,100">### ▶️Normals (part 1)
+Armed with your vertex positions and [[Normals]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotations]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="12" name="Normals" tags="Done" position="450,650" size="100,100">### ▶️Normals (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=8cac48d3-7d60-49ad-9f2b-b43c013e087e&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V04_Normals_1_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -1944,7 +2117,7 @@ void main() {
 ```
 
 ### ⏭️What&#39;s next?
-Armed with your normals and [[Vertex Positions]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotation]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="13" name="Quaternion" tags="Done" position="50,625" size="100,100">### ▶️Quaternions
+Armed with your normals and [[Vertex Positions]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotations]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="13" name="Quaternions" tags="Done" position="50,625" size="100,100">### ▶️Quaternions
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=7f3ace5f-ccb3-4bbe-8014-b45200e79504&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V08_Quaternions_exp5_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -2319,7 +2492,7 @@ static Matrix4 NDCtoViewport(int width_, int height_) {
 
 ### ⏭️What&#39;s next?
 
-The viewport matrix takes us from [[NDC Space]] to the final stage of the rendering pipeline called [[Pixel Space]] or Screen space.</tw-passagedata><tw-passagedata pid="18" name="Bonus" tags="Done" position="925,700" size="100,100">### ▶️Bonus (part 1)
+The viewport matrix takes us from [[NDC Space]] to the final stage of the rendering pipeline called [[Pixel Space]] or Screen space.</tw-passagedata><tw-passagedata pid="18" name="Bonus" tags="Done" position="1075,525" size="100,100">### ▶️Bonus (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=fb1a1e9d-a1fc-4a1e-a497-b451015c7b1d&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V18_Bonus_1_EXP2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -2341,6 +2514,12 @@ The viewport matrix takes us from [[NDC Space]] to the final stage of the render
 
 ### 👀Too Long; Didn&#39;t Watch
 The past, the future, and our farewell *sniff, sniff*
+</tw-passagedata><tw-passagedata pid="19" name="About" tags="" position="400,300" size="100,100">### About (Stacy&#39;s prototype)
+&lt;img src=&quot;images/prototype_about.png&quot; /&gt;
+
+
+### ⏭️What&#39;s next?
+Our journey starts with an [[Intro To Spaces]] or just jump right into the map below:
 </tw-passagedata></tw-storydata>	
 	</body>
 </html>
