@@ -852,7 +852,7 @@ function addMapToCurrentPassage() {
             const hints = document.createElement("p");
             hints.id = "passage-graph-hints";
             hints.style.cssText = "font-size: 0.85em; color: #888; margin: 8px 0 0 0;";
-            hints.textContent = "Click to navigate · Drag to rotate · Right-drag to pan · Ctrl+scroll to zoom";
+            //hints.textContent = "Click to navigate · Drag to rotate · Right-drag to pan · Ctrl+scroll to zoom";
             existingContainer.after(hints);
         }
         // Container exists - use it or update arrow
@@ -880,7 +880,7 @@ function addMapToCurrentPassage() {
     // Create wrapper with header
     const wrapper = document.createElement("div");
     wrapper.id = "passage-graph-wrapper";
-    wrapper.innerHTML = "<h3>I'm lost. Can I see the big picture again?</h3>";
+    wrapper.innerHTML = "<h3>🗺️Explore:</h3>";
 
     const container = document.createElement("div");
     container.id = "passage-graph";
@@ -889,7 +889,7 @@ function addMapToCurrentPassage() {
     const hints = document.createElement("p");
     hints.id = "passage-graph-hints";
     hints.style.cssText = "font-size: 0.85em; color: #888; margin: 8px 0 0 0;";
-    hints.textContent = "Click to navigate · Drag to rotate · Right-drag to pan · Ctrl+scroll to zoom";
+    //hints.textContent = "Click to navigate · Drag to rotate · Right-drag to pan · Ctrl+scroll to zoom";
 
     wrapper.appendChild(container);
     wrapper.appendChild(hints);
