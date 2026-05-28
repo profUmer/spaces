@@ -4,8 +4,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="utf-8">
 		<title>Spaces</title>
-	<link rel="preconnect" href="https://humber.ca.panopto.com" crossorigin>
-	<link rel="dns-prefetch" href="https://humber.ca.panopto.com">
 	</head>
 	<body>
 		<script>/*! For license information please see main.js.LICENSE.txt */
@@ -1359,7 +1357,7 @@ Vec4 vertexPosScreenSpace = viewportMatrix * vertexPosNdcSpace;
 
 ### ⏭️What&#39;s next?
 
-Let&#39;s start with our artist, professor Paul Neale, building a 3D object in [[model space-&gt;Model Space]], though feel free to ignore me and explore the map below:
+Let&#39;s start with our artist, professor Paul Neale, building a 3D object in[[Model Space]], though feel free to ignore me and explore the map below:
 
 &lt;div id=&quot;passage-graph&quot; style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="2" name="Model Space" tags="Done" position="325,525" size="100,100">### ▶️Model Space (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
@@ -1592,7 +1590,7 @@ Vec4 vertexNormalWorldSpace   = MMath::inverse(viewMatrix) * vertexNormalCameraS
 ### ⏭️What&#39;s next?
 When someone is playing a game they don&#39;t usually see the camera - they are the camera. It is handy to translate and rotate everything so that the camera is at the origin [0, 0, 0] looking down the -z axis. That is called [[Camera Space]] and we get from here to there using the [[View Matrix]]. 
 
-When you are clicking on objects, it is handy to have all your math in the same space as the model itself. To head into [[Model Space]], use the inverse of the [[Model Matrix]] </tw-passagedata><tw-passagedata pid="4" name="Camera Space" tags="Done" position="625,525" size="100,100">### ▶️Camera Space
+When you are clicking on objects, it is handy to have all your math in the same space as the model itself. To head into [[Model Space]], use the inverse of the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="4" name="Camera Space" tags="Done" position="625,525" size="100,100">### ▶️Camera Space
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=6aee0924-8096-48a8-9184-b45200eaec80&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpaceProject_V12_CameraSpace_exp6_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -1798,7 +1796,7 @@ static Matrix4 scale(const Vec3&amp; scale) {
 }
 ```
 ### ⏭️What&#39;s next?
-Combine your scale with a [[Rotations]] and a [[Translation]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="8" name="Translation" tags="Done" position="50,450" size="100,100">### ▶️Translation
+Combine your scale with a [[Rotation]] and a [[Translation]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="8" name="Translation" tags="Done" position="50,450" size="100,100">### ▶️Translation
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=39e0ee1e-9754-4aa9-8cd3-b43b00ef665d&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V06_Translations_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -1850,12 +1848,12 @@ Matrix4 T_inverse = MMath::inverse(T);
 Vec4 originalVertexPos = T_inverse * newVertexPos;
 ```
 ### ⏭️What&#39;s next?
-Combine your translation with a [[Rotations]] and a [[Scale]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="9" name="Rotations" tags="Done" position="175,550" size="100,100">### ▶️Rotations (part 1)
+Combine your translation with a [[Rotation]] and a [[Scale]] to form the [[Model Matrix]]. </tw-passagedata><tw-passagedata pid="9" name="Rotation" tags="Done" position="175,550" size="100,100">### ▶️Rotation (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=a8f6b427-ffeb-491a-b88d-b4480115ea53&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V07_Rotation_1_exp1_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-### ^^Rotations (part 2)
+### ^^Rotation (part 2)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=ae630ae3-434e-499a-b768-b4480115ea5f&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V07_Rotation_2_exp3_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -1959,7 +1957,7 @@ static Matrix3 toMatrix3(const Quaternion&amp; q) {
 ```
 
 ### ⏭️What&#39;s next?
-Ever since the game Tomb Raider, developers have leaned towards [[quaternions-&gt;Quaternions]] to represent 3D rotations in game engines. Let&#39;s dig into them further (yes, this is Umer&#39;s decision!).</tw-passagedata><tw-passagedata pid="10" name="Model Matrix" tags="Done" position="400,375" size="100,100">### ▶️Model Matrix
+Ever since the game Tomb Raider, developers have leaned towards [[Quaternions]] to represent 3D rotations in game engines. Let&#39;s dig into them further (yes, this is Umer&#39;s decision!).</tw-passagedata><tw-passagedata pid="10" name="Model Matrix" tags="Done" position="400,375" size="100,100">### ▶️Model Matrix
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=77f8c7e8-03ef-4720-81e8-b4410106fc59&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V09_ModelMatrix_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -1996,7 +1994,7 @@ Matrix4 Body::GetModelMatrix() const {
 ```
 
 ### ⏭️What&#39;s next?
-Now that you have combined [[Scale]], [[Rotations]], and [[Translation]] into one matrix, you can transform the [[Vertex Positions]] and [[Normals]] from [[Model Space]] to [[World Space]]. </tw-passagedata><tw-passagedata pid="11" name="Vertex Positions" tags="Done" position="250,675" size="100,100">### ▶️Vertex Positions (part 1)
+Now that you have combined [[Scale]], [[Rotation]], and [[Translation]] into one matrix, you can transform the [[Vertex Positions]] and [[Normals]] from [[Model Space]] to [[World Space]]. </tw-passagedata><tw-passagedata pid="11" name="Vertex Positions" tags="Done" position="250,675" size="100,100">### ▶️Vertex Positions (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=dccf68e7-95f8-40ee-a0ea-b45200e53ebd&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V03_VertexPositions_1_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -2035,7 +2033,7 @@ Vec4 vertexPos = Vec4(vertex.x, vertex.y, vertex.z, 1.0f);
 Vec4 vertexPosWorldSpace = modelMatrix * vertexPos;
 ```
 ### ⏭️What&#39;s next?
-Armed with your vertex positions and [[Normals]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotations]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="12" name="Normals" tags="Done" position="450,650" size="100,100">### ▶️Normals (part 1)
+Armed with your vertex positions and [[Normals]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotation]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="12" name="Normals" tags="Done" position="450,650" size="100,100">### ▶️Normals (part 1)
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=8cac48d3-7d60-49ad-9f2b-b43c013e087e&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V04_Normals_1_exp2_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -2119,7 +2117,7 @@ void main() {
 ```
 
 ### ⏭️What&#39;s next?
-Armed with your normals and [[Vertex Positions]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotations]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="13" name="Quaternions" tags="Done" position="50,625" size="100,100">### ▶️Quaternions
+Armed with your normals and [[Vertex Positions]], it&#39;s time to transform them into [[World Space]] using the [[Scale]], [[Rotation]], and [[Translation]] matrices.</tw-passagedata><tw-passagedata pid="13" name="Quaternions" tags="Done" position="50,625" size="100,100">### ▶️Quaternions
 &lt;div style=&quot;position: relative; width: 100%; height: 0; padding-bottom: 56.25%&quot;&gt;
 	&lt;iframe src=&quot;https://humber.ca.panopto.com/Panopto/Pages/Embed.aspx?id=7f3ace5f-ccb3-4bbe-8014-b45200e79504&amp;autoplay=false&amp;offerviewer=false&amp;showtitle=false&amp;showbrand=false&amp;captions=true&amp;interactivity=all&quot; style=&quot;border: 1px solid #464646; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box;&quot; allowfullscreen allow=&quot;autoplay;fullscreen&quot; aria-label=&quot;Panopto Embedded Video Player&quot; aria-description=&quot;SpacesProject_V08_Quaternions_exp5_HD&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
